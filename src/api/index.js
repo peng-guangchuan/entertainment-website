@@ -1,9 +1,9 @@
 import axios from "axios";
 import Qs from "qs";
-import { SnackbarProgrammatic as Snackbar } from 'buefy'
+import { SnackbarProgrammatic as Snackbar } from 'buefy';
 
 //全局默认配置
-axios.defaults.baseURL = "http://192.168.3.41:9090";
+axios.defaults.baseURL = "http://192.168.3.41:8001";
 // axios.interceptors.request.use(
 //     config => {
 //         console.log(config);
@@ -14,7 +14,6 @@ axios.defaults.baseURL = "http://192.168.3.41:9090";
 //     }
 // );请求拦截
 axios.defaults.withCredentials = true //请求发送cookie
-
 
 axios.interceptors.response.use(res => {
     return res;
@@ -39,13 +38,18 @@ export const adminLogin = (username, password) => {
     return axios.post("/loginbackstage", Qs.stringify({ username, password }));
 };
 
+// 用户登陆接口
 export const userLogin = (email, password) => {
     return axios.post(
-        "/userlogin",
+        "/common/login",
         Qs.stringify({ email, password })
     );
 };
 
+// 用户注册接口
+export const register = (account, password, type, email, name, gender, age, school) => {
+    return axios.post("/common/register", Qs.stringify({ account, password, type, email, name, gender, age, school }))
+};
 export const getAllArticle = (page) => {
     return axios.post("/pagearticle", Qs.stringify({ page }));
 };
@@ -77,11 +81,7 @@ export const getnew = () => {
 export const gethotuser = () => {
     return axios("/hotuser")
 };
-export const register = (userName, userPassword, userShow, userEmail, userPhone, userSex) => {
 
-    return axios.post("/register", Qs.stringify({ userName, userPassword, userShow, userEmail, userPhone, userSex }))
-
-};
 export const getcomment = (artId) => {
     return axios.post("/getComment", Qs.stringify({ artId }))
 };

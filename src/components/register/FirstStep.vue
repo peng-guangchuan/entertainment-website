@@ -1,39 +1,50 @@
 <template>
   <div class="first">
-    <section>
-      <b-field label="用户名">
-        <b-input v-model="userName" placeholder="username" maxlength="30"></b-input>
-        <!-- required pattern="[A-Za-z][A-Za-z0-9_]{4,14}"
-        validation-message="用户名不能为空!"-->
+    <div>
+      <b-field label="用户名" horizontal>
+        <b-input
+          v-model="userName"
+          placeholder="请输入用户名"
+          maxlength="8"
+          class="resigerInput"
+        ></b-input>
       </b-field>
 
-      <b-field label="邮箱">
-        <b-input type="email" v-model="userEmail" placeholder="Your email" required></b-input>
+      <b-field label="邮箱" horizontal>
+        <b-input
+          type="email"
+          v-model="userEmail"
+          placeholder="请输入您的邮箱地址"
+          maxlength="30"
+          required
+          class="resigerInput"
+        ></b-input>
       </b-field>
 
-      <b-field label="密码">
+      <b-field label="密码" horizontal>
         <b-input
           type="password"
           password-reveal
-          placeholder="Your password"
+          placeholder="请设置您账号的密码"
           required
           v-model="userPassword"
+          class="resigerInput"
         ></b-input>
       </b-field>
-    </section>
+    </div>
+    <hr />
     <b-button type="is-info" outlined rounded @click="first">保存</b-button>
   </div>
 </template>
 
 
 <script>
-import { SnackbarProgrammatic as Snackbar } from "buefy";
 export default {
   data() {
     return {
       userName: "",
       userEmail: "",
-      userPassword: ""
+      userPassword: "",
     };
   },
   methods: {
@@ -41,40 +52,40 @@ export default {
       this.$store.commit("first", {
         userName: this.userName,
         userEmail: this.userEmail,
-        userPassword: this.userPassword
+        userPassword: this.userPassword,
       });
+      console.log(this.$store.state.registeruser.userName);
+      console.log(this.$store.state.registeruser.userEmail);
+      console.log(this.$store.state.registeruser.userPassword);
       if (
         this.$store.state.registeruser.userName != "" &&
         this.$store.state.registeruser.userEmail != "" &&
         this.$store.state.registeruser.userPassword != ""
       ) {
-        Snackbar.open("保存成功");
+        this.$message({
+          message: "信息保存成功！",
+          type: "success",
+        });
       } else {
-        this.$buefy.snackbar.open({
-          duration: 5000,
-          message: "请填写完整信息",
-          type: "is-danger",
-          position: "is-bottom-left",
-          actionText: "确定",
-          queue: false,
-          onAction: () => {
-            this.$buefy.toast.open({
-              message: "信息填写完整再点击保存",
-              queue: false
-            });
-          }
+        this.$message({
+          message: "信息填写完整再点击保存",
+          type: "error",
         });
       }
-    }
-  }
+    },
+  },
 };
 </script>
 
 <style scoped>
 .first {
-  text-align: center;
-  float: left;
-  width: 500px;
+  /* text-align: center; */
+  /* width: 500px; */
   height: 400px;
+  /* margin: 0 auto; */
+  margin-top: 3rem;
 }
+/* .resigerInput{
+  width: 70%;
+} */
 </style>

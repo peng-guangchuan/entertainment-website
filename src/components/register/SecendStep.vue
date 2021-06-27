@@ -1,24 +1,40 @@
 <template>
   <div class="secend">
-    <section class="f">
-      <b-field label="电话" :label-position="labelPosition">
+    <section>
+      <b-field label="姓名" horizontal>
         <b-input
-          v-model="userPhone"
+          v-model="name"
           required
-          pattern="^((\d{11})|(\d{7,8})|(\d{4}|\d{3})-(\d{7,8}))$"
-          validation-message="请输入正确的电话号码!"
+          validation-message="请输入正确的姓名!"
+          placeholder="请输入您的姓名"
         ></b-input>
       </b-field>
 
-      <b-field label="性别" :label-position="labelPosition">
+      <b-field label="性别" horizontal>
         <b-select placeholder="选择性别" v-model="userSex">
-          <option value="男">男</option>
-          <option value="女">女</option>
+          <option value="1">男</option>
+          <option value="0">女</option>
         </b-select>
       </b-field>
 
-      <b-field label="个性签名" :label-position="labelPosition">
-        <b-input maxlength="200" type="textarea" v-model="userShow"></b-input>
+      <b-field label="年龄" horizontal>
+        <b-input
+          v-model="userAge"
+          required
+          pattern="^(?:[1-9][0-9]?)$"
+          validation-message="请输入正确的年龄(不得大于100岁)!"
+          placeholder="请输入您的年龄，纯数字格式"
+        ></b-input>
+      </b-field>
+
+      <b-field label="就读学校" horizontal>
+        <b-input
+          v-model="userSchool"
+          required
+          maxlength="20"
+          validation-message="请输入正确的院校名称!"
+          placeholder="请输入您的就读学校"
+        ></b-input>
       </b-field>
 
       <hr />
@@ -28,58 +44,53 @@
 </template>
 
 <script>
-import { SnackbarProgrammatic as Snackbar } from "buefy";
 export default {
   data() {
     return {
-      labelPosition: "on-border",
-      userShow: "",
-      userPhone: "",
-      userSex: ""
+      name: "",
+      userSex: "1",
+      userAge: "",
+      userSchool: "",
     };
   },
   methods: {
     secend() {
       this.$store.commit("secend", {
-        userShow: this.userShow,
-        userPhone: this.userPhone,
-        userSex: this.userSex
+        name: this.name,
+        userSex: this.userSex,
+        userAge: this.userAge,
+        userSchool: this.userSchool,
       });
+      console.log(this.$store.state.registeruser.name);
+      console.log(this.$store.state.registeruser.userSex);
+      console.log(this.$store.state.registeruser.userAge);
+      console.log(this.$store.state.registeruser.userSchool);
       if (
-        this.$store.state.registeruser.userPhone != "" &&
-        this.$store.state.registeruser.userShow != "" &&
-        this.$store.state.registeruser.userSex != ""
+        this.$store.state.registeruser.name != "" &&
+        this.$store.state.registeruser.userSex != "" &&
+        this.$store.state.registeruser.userAge != "" &&
+        this.$store.state.registeruser.userSchool != ""
       ) {
-        Snackbar.open("保存成功");
+        this.$message({
+          message: "信息保存成功！",
+          type: "success",
+        });
       } else {
-        this.$buefy.snackbar.open({
-          duration: 5000,
-          message: "请填写完整信息",
-          type: "is-danger",
-          position: "is-bottom-left",
-          actionText: "确定",
-          queue: false,
-          onAction: () => {
-            this.$buefy.toast.open({
-              message: "信息填写完整再点击保存",
-              queue: false
-            });
-          }
+        this.$message({
+          message: "信息填写完整再点击保存",
+          type: "error",
         });
       }
-    }
-  }
+    },
+  },
 };
 </script>
 
 <style scoped>
 .secend {
-  margin: auto;
-  width: 500px;
-  height: 500px;
-  text-align: center;
-}
-.f {
-  padding-top: 8rem;
+  /* margin: auto; */
+  height: 400px;
+  /* text-align: center; */
+  margin-top: 3rem;
 }
 </style>

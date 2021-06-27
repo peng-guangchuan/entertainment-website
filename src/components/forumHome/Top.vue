@@ -90,6 +90,7 @@
                             placeholder="Your password"
                             required
                             v-model="password"
+                            @keyup.enter.native="login"
                           ></b-input>
                         </b-field>
 
@@ -128,22 +129,24 @@ export default {
     return {
       email: "",
       password: "",
+      searchKey: "",
     };
   },
   methods: {
     goHome() {
       this.$router.go(0);
     },
-    goRead(){
-      console.log('read');
+    goRead() {
+      console.log("read");
     },
-    goListen(){
-      console.log('listen');
+    goListen() {
+      console.log("listen");
     },
-    goWatch(){
-      console.log('Watch');
+    goWatch() {
+      console.log("Watch");
     },
     logout() {
+      this.$message("账号成功登出！");
       this.$store.commit("logout");
     },
     userhome() {
@@ -154,8 +157,13 @@ export default {
         .then((res) => {
           const { data } = res;
           this.user = data;
+          console.log("login+data=");
           console.log(data);
-          if (data != null) {
+          if (data.code == 20000) {
+            this.$message({
+              message: "登陆成功！",
+              type: "success",
+            });
             this.$store.dispatch("aLogin", {
               user: data,
               message: "牛逼",
@@ -164,7 +172,10 @@ export default {
               },
             });
           } else {
-            alert("该用户不存在");
+            this.$message({
+              message: "登陆失败，该用户不存在或密码错误！",
+              type: "error",
+            });
           }
         })
         .catch(() => {});

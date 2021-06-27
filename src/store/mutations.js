@@ -27,9 +27,10 @@ export default {
     },
 
     secend(state, payload) {
-        state.registeruser.userPhone = payload.userPhone;
+        state.registeruser.name = payload.name;
         state.registeruser.userSex = payload.userSex;
-        state.registeruser.userShow = payload.userShow;
+        state.registeruser.userAge = payload.userAge;
+        state.registeruser.userSchool = payload.userSchool;
     },
 
     details(state, info) {

@@ -1,19 +1,36 @@
 <template>
-  <section>
-    <b-steps type="is-info">
+  <div>
+    <el-steps :active="active" finish-status="success" simple="true">
+      <el-step title="步骤 1"> </el-step>
+      <el-step title="步骤 2"> </el-step>
+      <el-step title="步骤 3"> </el-step>
+    </el-steps>
+    <el-row>
+      <el-col :span="12" :offset="6" v-if="active == 1">
+        <FirstStep />
+      </el-col>
+      <el-col :span="12" :offset="6" v-if="active == 2">
+        <SecendStep />
+      </el-col>
+      <el-col :span="12" :offset="6" v-if="active == 3">
+        <ThirdStep />
+      </el-col>
+    </el-row>
+
+    <el-button style="margin-top: 12px" @click="last">上一步</el-button>
+    <el-button style="margin-top: 12px" @click="next">下一步</el-button>
+    <!-- <b-steps type="is-info">
       <b-step-item label="第一步" icon="account-key">
         <FirstStep />
-
-        <img src="../../assets/401.gif" alt />
       </b-step-item>
       <b-step-item label="第二步" icon="account">
         <SecendStep />
       </b-step-item>
       <b-step-item label="第三步" icon="account-plus">
-        <ThirdStep /><img src=https://wpimg.wallstcn.com/007ef517-bafd-4066-aae4-6883632d9646 alt />
+        <ThirdStep />
       </b-step-item>
-    </b-steps>
-  </section>
+    </b-steps> -->
+  </div>
 </template>
 
 
@@ -25,8 +42,33 @@ export default {
   components: {
     FirstStep,
     SecendStep,
-    ThirdStep
-  }
+    ThirdStep,
+  },
+  data() {
+    return {
+      active: 1,
+    };
+  },
+  methods: {
+    last() {
+      if (this.active-- < 2) {
+        this.active = 1;
+        this.$message({
+          message: "这是第一步了~",
+          type: "warning",
+        });
+      }
+    },
+    next() {
+      if (this.active++ > 2) {
+        this.active = 3;
+        this.$message({
+          message: "这是最后一步了~",
+          type: "warning",
+        });
+      }
+    },
+  },
 };
 </script>
 
