@@ -4,7 +4,7 @@ export default {
     //context:上下文，actions中的默认参数，理解成store对象
     aLogin(context, payload) {
         setTimeout(() => {
-            context.commit('login', payload.user)
+            context.commit('login', payload.user.data)
             console.log(payload.message);
             payload.success();
         }, 1000)

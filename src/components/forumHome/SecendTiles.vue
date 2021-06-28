@@ -151,8 +151,8 @@
 </template>
 
 <script>
-import { getnew } from "@/api";
-import { gethotuser } from "@/api";
+// import { getnew } from "@/api";
+// import { gethotuser } from "@/api";
 
 export default {
   data() {
@@ -222,16 +222,16 @@ export default {
       });
     },
   },
-  mounted() {
-    getnew().then((res) => {
-      this.info = res.data.content;
-    });
-    gethotuser().then((res) => {
-      const { data } = res;
+  // mounted() {
+  //   getnew().then((res) => {
+  //     this.info = res.data.content;
+  //   });
+  //   gethotuser().then((res) => {
+  //     const { data } = res;
 
-      this.users = data.content;
-    });
-  },
+  //     this.users = data.content;
+  //   });
+  // },
   components: {},
 };
 </script>

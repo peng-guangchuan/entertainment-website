@@ -6,7 +6,6 @@ import actions from '../store/actions';
 Vue.use(Vuex);
 
 //全局状态管理，相当于一个公共变量，并且是响应式的，任何一个组件更改其内容，可以响应式更新页面
-
 // const moduleA = {
 //   state: {
 //   name:"dddd"
@@ -30,6 +29,10 @@ export default new Vuex.Store({
       userShow: window.localStorage.getItem('user' || '[]') == null ? '' : JSON.parse(window.localStorage.getItem('user' || '[]')).userShow,
       userSex: window.localStorage.getItem('user' || '[]') == null ? '' : JSON.parse(window.localStorage.getItem('user' || '[]')).userSex,
       userPhone: window.localStorage.getItem('user' || '[]') == null ? '' : JSON.parse(window.localStorage.getItem('user' || '[]')).userPhone,
+      account: window.localStorage.getItem('user' || '[]') == null ? '' : JSON.parse(window.localStorage.getItem('user' || '[]')).account,
+      email: window.localStorage.getItem('user' || '[]') == null ? '' : JSON.parse(window.localStorage.getItem('user' || '[]')).email,
+      id: window.localStorage.getItem('user' || '[]') == null ? '' : JSON.parse(window.localStorage.getItem('user' || '[]')).id,
+      type: window.localStorage.getItem('user' || '[]') == null ? '' : JSON.parse(window.localStorage.getItem('user' || '[]')).type,
     },
     info: [
       {
@@ -47,6 +50,10 @@ export default new Vuex.Store({
           artLikeNum: 0
         },
         user: {
+          account: "",
+          email:"",
+          id:0,
+          type:1,
           userId: 0,
           userPassword: 0,
           userName: "",

@@ -109,12 +109,34 @@
           </div>
         </div>
       </div>
-      <div v-else-if="$store.state.isLogin">
+      <!-- <div v-else-if="$store.state.isLogin">
         <div>
           <i class="far fa-address-card">{{ $store.state.user.userName }}</i>
         </div>
         <div @click="logout">
           <i class="fas fa-sign-out-alt">登出</i>
+        </div>
+      </div> -->
+      <div class="isLogin navbar-end" v-else-if="$store.state.isLogin">
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link">更多</a>
+          <div class="navbar-dropdown">
+            <a class="navbar-item">个人主页</a>
+            <hr class="navbar-divider" />
+            <a class="navbar-item">Report an issue</a>
+          </div>
+        </div>
+        <div class="isLogin navbar-item" v-if="$store.state.isLogin">
+          <div title="进入个人主页">
+            <i class="el-icon-s-custom myInfo">{{
+              this.$store.state.user.account
+            }}</i>
+          </div>
+        </div>
+        <div class="isLogin navbar-item">
+          <div @click="logout" v-if="$store.state.isLogin">
+            <i class="el-icon-error myInfo"> 登出</i>
+          </div>
         </div>
       </div>
     </div>
@@ -134,16 +156,16 @@ export default {
   },
   methods: {
     goHome() {
-      this.$router.go(0);
+      this.$router.push("/");
     },
     goRead() {
-      console.log("read");
+      this.$router.push("/bookhome");
     },
     goListen() {
-      console.log("listen");
+      this.$router.push("/musichome");
     },
     goWatch() {
-      console.log("Watch");
+      this.$router.push("/moviehome");
     },
     logout() {
       this.$message("账号成功登出！");
@@ -157,8 +179,8 @@ export default {
         .then((res) => {
           const { data } = res;
           this.user = data;
-          console.log("login+data=");
-          console.log(data);
+          // console.log("login+data=");
+          // console.log(data);
           if (data.code == 20000) {
             this.$message({
               message: "登陆成功！",
@@ -186,3 +208,15 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.myInfo {
+  cursor: pointer;
+}
+.myInfo:hover {
+  font-weight: bold;
+}
+.isLogin {
+  width: auto;
+}
+</style>

@@ -16,6 +16,21 @@ const routes = [
     component: () => import("../components/Login.vue")
   },
   {
+    path: "/bookhome",
+    name: "bookhome",
+    component: () => import("../components/book/bookhome.vue")
+  },
+  {
+    path: "/moviehome",
+    name: "moviehome",
+    component: () => import("../components/movie/moviehome.vue")
+  },
+  {
+    path: "/musichome",
+    name: "musichome",
+    component: () => import("../components/music/musichome.vue")
+  },
+  {
     path: "/loginbackstage",
     name: "loginbackstage",
     component: () => import("../components/backstagehome/LoginBackStage.vue")

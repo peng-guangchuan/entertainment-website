@@ -3,7 +3,7 @@ import Qs from "qs";
 import { SnackbarProgrammatic as Snackbar } from 'buefy';
 
 //全局默认配置
-axios.defaults.baseURL = "http://192.168.3.41:8001";
+axios.defaults.baseURL = "http://192.168.3.5:8001";
 // axios.interceptors.request.use(
 //     config => {
 //         console.log(config);
@@ -50,6 +50,22 @@ export const userLogin = (email, password) => {
 export const register = (account, password, type, email, name, gender, age, school) => {
     return axios.post("/common/register", Qs.stringify({ account, password, type, email, name, gender, age, school }))
 };
+
+// 获取书籍信息接口
+export const getAllBook = (page)=>{
+    return axios.get("/common/books?page="+page+"&size=9");
+};
+
+// 获取电影信息接口
+export const getAllMovies = (page)=>{
+    return axios.get("/common/movies?page="+page+"&size=9");
+};
+
+// 获取音乐信息接口
+export const getAllMusic = (page)=>{
+    return axios.get("/common/musics?page="+page+"&size=9");
+};
+
 export const getAllArticle = (page) => {
     return axios.post("/pagearticle", Qs.stringify({ page }));
 };

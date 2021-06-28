@@ -4,9 +4,7 @@
     <Secend />
     <Tiles />
     <SecendTiles />
-
     <Footer />
-    
   </div>
 </template>
 
@@ -18,7 +16,6 @@ import Tiles from "../forumHome/Tiles";
 import Footer from "../forumHome/Footer";
 import SecendTiles from "../forumHome/SecendTiles";
 
-
 export default {
   components: {
     Top,
@@ -26,7 +23,6 @@ export default {
     Tiles,
     Footer,
     SecendTiles,
-    
   }
 };
 </script>

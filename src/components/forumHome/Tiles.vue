@@ -137,7 +137,7 @@
 </template>
 
 <script>
-import { getHotArticleType } from "@/api";
+// import { getHotArticleType } from "@/api";
 // import { getPageMain } from "@/api";
 // import Pageination from "../forumHome/Pageination.vue";
 export default {
@@ -184,23 +184,23 @@ export default {
       },
     };
   },
-  mounted() {
-    getHotArticleType()
-      .then((res) => {
-        const { data } = res;
-        this.contents = data.content;
-      })
-      .catch(() => {});
+  // mounted() {
+  //   getHotArticleType()
+  //     .then((res) => {
+  //       const { data } = res;
+  //       this.contents = data.content;
+  //     })
+  //     .catch(() => {});
 
-    this.$store.dispatch("getpagemain");
-    //bug，应该用action异步处理，再提交commit状态，明日更新（已解决）
-    // getPageMain()
-    //   .then(res => {
-    //     const { data } = res;
-    //     this.info = data.content;
-    //   })
-    //   .catch(() => {});
-  },
+  //   this.$store.dispatch("getpagemain");
+  //   //bug，应该用action异步处理，再提交commit状态，明日更新（已解决）
+  //   // getPageMain()
+  //   //   .then(res => {
+  //   //     const { data } = res;
+  //   //     this.info = data.content;
+  //   //   })
+  //   //   .catch(() => {});
+  // },
   methods: {
     allart() {
       this.$router.push("/allarticlehome");
