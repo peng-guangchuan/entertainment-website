@@ -15,14 +15,19 @@
         :offset="index > 0 ? 1 : 0"
       >
         <el-card :body-style="{ padding: '0px' }" shadow="hover">
-          <img
-            src="https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"
-            class="image"
-          />
+          <el-image
+            style="width: 235px; height: 260px"
+            :src="o.img"
+            :preview-src-list="[o.img]"
+          >
+            <div slot="placeholder" class="image-slot">
+              加载中<span class="dot">...</span>
+            </div>
+          </el-image>
           <div style="padding: 14px">
-            <div>歌名:{{ o.name }}</div>
-            <div>歌手:{{ o.singer }}</div>
-            <div>专辑:{{ o.album }}</div>
+            <div>歌名：{{ o.name }}</div>
+            <div>歌手：{{ o.singer }}</div>
+            <div>专辑：{{ o.album }}</div>
             <el-button type="text" class="button">查看详情</el-button>
           </div>
         </el-card>
@@ -49,7 +54,7 @@ export default {
     return {
       currentp: 1,
       psize: 9,
-      ptotal: 19,
+      ptotal: 0,
       musics: [],
       musicInfos: [
         {
@@ -57,11 +62,11 @@ export default {
           id: 0,
           img: "",
           isRecommend: 1,
-          lyric:"",
+          lyric: "",
           name: "",
           score: 0,
           scoreNum: 0,
-          singer:"",
+          singer: "",
         },
       ],
     };
@@ -82,6 +87,7 @@ export default {
         // var temparr = []
         var temp = [];
         for (let i = 0; i < this.musicInfos.length; i++) {
+          this.musicInfos[i].img = this.$store.state.imgBaseUrl   + this.musicInfos[i].img;
           if ((i + 1) % 3 != 0) {
             temp[temp.length] = this.musicInfos[i];
           } else {
@@ -98,14 +104,15 @@ export default {
   },
   mounted() {
     getAllMusic(1).then((res) => {
-      console.log("res=");
-      console.log(res);
+      // console.log("res=");
+      // console.log(res);
       this.musicInfos = res.data.data.records;
-      console.log(this.musicInfos);
+      // console.log(this.musicInfos);
       this.currentp = res.data.data.current; // 分页可对数据转型
       this.ptotal = res.data.data.total;
       var temp = [];
       for (let i = 0; i < this.musicInfos.length; i++) {
+        this.musicInfos[i].img = this.$store.state.imgBaseUrl   + this.musicInfos[i].img;
         if ((i + 1) % 3 != 0) {
           temp[temp.length] = this.musicInfos[i];
         } else {

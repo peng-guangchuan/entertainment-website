@@ -7,7 +7,7 @@
             >叶锡烨</a
           >。
         </p>
-        <p><a href="">前端项目开源地址</a> <a href="">后端项目开源地址</a></p>
+        <p><a href="https://gitee.com/peng_guangchuan/entertainment-website">前端项目开源地址</a> <a href="">后端项目开源地址</a></p>
       </div>
     </footer>
   </div>

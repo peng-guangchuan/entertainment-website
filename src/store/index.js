@@ -18,6 +18,7 @@ Vue.use(Vuex);
 export default new Vuex.Store({
 
   state: {
+    imgBaseUrl: "http://192.168.3.5:8002",
     isLogin: window.localStorage.getItem('isLogin' || '[]') == null ? '' : true,
     user: {
       userName: window.localStorage.getItem('user' || '[]') == null ? '' : JSON.parse(window.localStorage.getItem('user' || '[]')).userName,
@@ -33,6 +34,7 @@ export default new Vuex.Store({
       email: window.localStorage.getItem('user' || '[]') == null ? '' : JSON.parse(window.localStorage.getItem('user' || '[]')).email,
       id: window.localStorage.getItem('user' || '[]') == null ? '' : JSON.parse(window.localStorage.getItem('user' || '[]')).id,
       type: window.localStorage.getItem('user' || '[]') == null ? '' : JSON.parse(window.localStorage.getItem('user' || '[]')).type,
+      token: window.localStorage.getItem('user' || '[]') == null ? '' : JSON.parse(window.localStorage.getItem('user' || '[]')).token,
     },
     info: [
       {

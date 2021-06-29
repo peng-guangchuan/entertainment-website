@@ -18,7 +18,12 @@ const routes = [
   {
     path: "/bookhome",
     name: "bookhome",
-    component: () => import("../components/book/bookhome.vue")
+    component: () => import("../components/book/bookhome.vue"),
+  },
+  {
+    path: "/bookdetail",
+    name: "bookdetail",
+    component: () => import("../components/book/bookdetail.vue")
   },
   {
     path: "/moviehome",

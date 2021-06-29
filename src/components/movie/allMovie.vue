@@ -15,14 +15,19 @@
         :offset="index > 0 ? 1 : 0"
       >
         <el-card :body-style="{ padding: '0px' }" shadow="hover">
-          <img
-            src="https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"
-            class="image"
-          />
+          <el-image
+            style="width: 235px; height: 260px"
+            :src="o.img"
+            :preview-src-list="[o.img]"
+          >
+            <div slot="placeholder" class="image-slot">
+              加载中<span class="dot">...</span>
+            </div>
+          </el-image>
           <div style="padding: 14px">
             <div>《{{ o.name }}》</div>
-            <div>导演:{{ o.director }}</div>
-            <div>类型:{{ o.genre }}</div>
+            <div>导演：{{ o.director }}</div>
+            <div>类型：{{ o.genre }}</div>
             <el-button type="text" class="button">查看详情</el-button>
           </div>
         </el-card>
@@ -49,7 +54,7 @@ export default {
     return {
       currentp: 1,
       psize: 9,
-      ptotal: 19,
+      ptotal: 0,
       movies: [],
       movieInfos: [
         {
@@ -84,6 +89,8 @@ export default {
         // var temparr = []
         var temp = [];
         for (let i = 0; i < this.movieInfos.length; i++) {
+          this.movieInfos[i].img =
+            this.$store.state.imgBaseUrl + this.movieInfos[i].img;
           if ((i + 1) % 3 != 0) {
             temp[temp.length] = this.movieInfos[i];
           } else {
@@ -100,14 +107,16 @@ export default {
   },
   mounted() {
     getAllMovies(1).then((res) => {
-      console.log("res=");
-      console.log(res);
+      // console.log("res=");
+      // console.log(res);
       this.movieInfos = res.data.data.records;
-      console.log(this.movieInfos);
+      // console.log(this.movieInfos);
       this.currentp = res.data.data.current; // 分页可对数据转型
       this.ptotal = res.data.data.total;
       var temp = [];
       for (let i = 0; i < this.movieInfos.length; i++) {
+        this.movieInfos[i].img =
+          this.$store.state.imgBaseUrl + this.movieInfos[i].img;
         if ((i + 1) % 3 != 0) {
           temp[temp.length] = this.movieInfos[i];
         } else {
@@ -116,7 +125,7 @@ export default {
           temp = [];
         }
       }
-      console.log(this.movies);
+      // console.log(this.movies);
     });
   },
   computed: {},

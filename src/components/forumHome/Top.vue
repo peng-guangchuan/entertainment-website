@@ -179,8 +179,8 @@ export default {
         .then((res) => {
           const { data } = res;
           this.user = data;
-          // console.log("login+data=");
-          // console.log(data);
+          // console.log("login+res=");
+          // console.log(res);
           if (data.code == 20000) {
             this.$message({
               message: "登陆成功！",
