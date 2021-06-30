@@ -1,5 +1,33 @@
 <template>
   <div>
+    <div style="margin: 1rem" class="level-center">
+      <div class="level-item">
+        <p class="subtitle is-5"></p>
+      </div>
+      <div class="level-item">
+        <div class="field has-addons">
+          <p class="control">
+            <input
+              class="input"
+              type="text"
+              placeholder="Find a book"
+              v-model="searchKey"
+              @keyup.enter="searching()"
+            />
+          </p>
+          <p class="control">
+            <button class="button" @click="searching()">搜索</button>
+          </p>
+          <p class="control select">
+            <select v-model="selectValue">
+              <option value="0">综合排序</option>
+              <option value="1">评分降序</option>
+              <option value="2">评分升序</option>
+            </select>
+          </p>
+        </div>
+      </div>
+    </div>
     <el-row
       type="flex"
       justify="center"
@@ -35,51 +63,6 @@
         </el-card>
       </el-col>
     </el-row>
-    <!-- <div>
-      <el-drawer
-        title="书籍详情"
-        :visible.sync="drawer"
-        :destroy-on-close="true"
-      >
-        <el-container>
-          <el-header
-            ><span class="subtitle is-3"
-              >《{{ oneBookInfo.name }}》</span
-            ></el-header
-          >
-          <el-container>
-            <el-aside width="235px" class="drw-asi">
-              <img
-                src="https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"
-                class="image"
-              />
-            </el-aside>
-            <el-container>
-              <el-main class="drw-m">
-                <div>
-                  <span class="textTag">作者:</span>{{ oneBookInfo.author }}
-                </div>
-                <div>
-                  <span class="textTag">出版社:</span
-                  >{{ oneBookInfo.publisher }}
-                </div>
-                <div>
-                  <span class="textTag">出版年:</span
-                  >{{ oneBookInfo.publisherYear }}
-                </div>
-                <div>
-                  <span class="textTag">ISBN:</span>{{ oneBookInfo.isbn }}
-                </div>
-              </el-main>
-            </el-container>
-          </el-container>
-          <el-footer> 评分 </el-footer>
-          <div class="abc" >
-            <div v-for="i in 1002" :key="i">{{i}}</div>
-          </div>
-        </el-container>
-      </el-drawer>
-    </div> -->
     <div class="block bookCard">
       <el-pagination
         @current-change="getNextBook()"
@@ -95,12 +78,14 @@
 
 <script>
 import { getAllBook } from "@/api";
-// import { getOneBook } from "@/api";
+import { getSearchBook } from "@/api";
 
 export default {
   data() {
     return {
-      // drawer: false,
+      searchKey: "",
+      selectValue: 0,
+      isSearch: false,
       currentp: 1,
       psize: 9,
       ptotal: 0,
@@ -123,6 +108,43 @@ export default {
     };
   },
   methods: {
+    searching() {
+      if (this.searchKey == "") {
+        this.$message({
+          showClose: true,
+          message: "请输入搜索内容！",
+          type: "warning",
+        });
+      } else {
+        this.isSearch = true;
+        this.getSearchBookApi(1);
+      }
+    },
+    getSearchBookApi(page) {
+      getSearchBook(this.searchKey, this.selectValue, page).then((res) => {
+        this.books.length = 0;
+        this.bookInfos.length = 0;
+        this.bookInfos = res.data.data.records;
+        this.currentp = res.data.data.current;
+        this.ptotal = res.data.data.total;
+        var temp = [];
+        for (let i = 0; i < this.bookInfos.length; i++) {
+          this.bookInfos[i].img =
+            this.$store.state.imgBaseUrl + this.bookInfos[i].img;
+          if ((i + 1) % 3 != 0) {
+            temp[temp.length] = this.bookInfos[i];
+          } else {
+            temp[temp.length] = this.bookInfos[i];
+            // temparr[temparr.length] = temp;
+            this.books.push(temp);
+            temp = [];
+          }
+        }
+        if (temp.length != 0) {
+          this.books.push(temp);
+        }
+      });
+    },
     findOneBookInfo(bookid) {
       // this.drawer = true;
       // getOneBook(bookid).then((res) => {
@@ -138,19 +160,13 @@ export default {
       // this.$router.push("/bookdetail");
       // });
     },
-    getNextBook() {
-      // console.log("getNextBook");
-      getAllBook(this.currentp).then((res) => {
-        // console.log("res=");
-        // console.log(res);
+    getAllBookApi(page) {
+      getAllBook(page).then((res) => {
         this.books.length = 0;
         this.bookInfos.length = 0;
         this.bookInfos = res.data.data.records;
-        // console.log(this.bookInfos);
         this.currentp = res.data.data.current;
         this.ptotal = res.data.data.total;
-
-        // var temparr = []
         var temp = [];
         for (let i = 0; i < this.bookInfos.length; i++) {
           this.bookInfos[i].img =
@@ -159,38 +175,25 @@ export default {
             temp[temp.length] = this.bookInfos[i];
           } else {
             temp[temp.length] = this.bookInfos[i];
-            // temparr[temparr.length] = temp;
             this.books.push(temp);
             temp = [];
           }
         }
-        // this.$set(this.books, this., obj)
-        // console.log(this.books);
+        if (temp.length != 0) {
+          this.books.push(temp);
+        }
       });
+    },
+    getNextBook() {
+      if (this.isSearch) {
+        this.getSearchBookApi(this.currentp);
+      } else {
+        this.getAllBookApi(this.currentp);
+      }
     },
   },
   mounted() {
-    getAllBook(1).then((res) => {
-      // console.log("res=");
-      // console.log(res);
-      this.bookInfos = res.data.data.records;
-      // console.log(this.bookInfos);
-      this.currentp = res.data.data.current; // 分页可对数据转型
-      this.ptotal = res.data.data.total;
-      var temp = [];
-      for (let i = 0; i < this.bookInfos.length; i++) {
-        this.bookInfos[i].img =
-          this.$store.state.imgBaseUrl + this.bookInfos[i].img;
-        if ((i + 1) % 3 != 0) {
-          temp[temp.length] = this.bookInfos[i];
-        } else {
-          temp[temp.length] = this.bookInfos[i];
-          this.books[this.books.length] = temp;
-          temp = [];
-        }
-      }
-      // console.log(this.books);
-    });
+    this.getAllBookApi(1);
   },
   computed: {},
 };
@@ -217,4 +220,3 @@ export default {
   color: gray;
 } */
 </style>
-

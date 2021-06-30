@@ -203,7 +203,7 @@ export default {
         this.musicsInfo[i].img =
           this.$store.state.imgBaseUrl + this.musicsInfo[i].img;
       }
-      console.log("newmusic", this.musicsInfo);
+      // console.log("newmusic", this.musicsInfo);
     });
     //   getHotArticleType()
     //     .then((res) => {

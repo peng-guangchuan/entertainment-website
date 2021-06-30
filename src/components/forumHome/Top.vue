@@ -23,18 +23,7 @@
         <a class="navbar-item" @click="goRead">读书</a>
         <a class="navbar-item" @click="goListen">音乐</a>
         <a class="navbar-item" @click="goWatch">电影</a>
-        <!-- <a class="navbar-item">热榜</a> -->
-        <!-- <div class="navbar-item has-dropdown is-hoverable">
-          <a class="navbar-link">更多</a>
-          <div class="navbar-dropdown">
-            <a class="navbar-item" @click="userhome">个人主页</a>
-            <a class="navbar-item">全部板块</a>
-            <a class="navbar-item">全部帖子</a>
-            <hr class="navbar-divider" />
-            <a class="navbar-item">Report an issue</a>
-          </div>
-        </div> -->
-        <div class="level-left">
+        <!-- <div class="level-left">
           <div class="level-item">
             <p class="subtitle is-5"></p>
           </div>
@@ -48,7 +37,7 @@
               </p>
             </div>
           </div>
-        </div>
+        </div> -->
       </div>
 
       <div class="navbar-end" v-if="!$store.state.isLogin">

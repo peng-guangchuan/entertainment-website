@@ -19,7 +19,7 @@
               </div>
             </el-image>
           </div>
-          <div class="detail_list_info">
+          <div class="detail_list_info" style="max-width:300px">
             <h2>《{{ oneMovieInfo.name }}》</h2>
             <p>导演：{{ oneMovieInfo.director }}</p>
             <p>演员：{{ oneMovieInfo.actor }}</p>
@@ -100,7 +100,7 @@
                 class="commentCard"
               >
                 <el-row :gutter="20">
-                  <el-col :span="19"
+                  <el-col :span="18"
                     ><div class="commentText">
                       @ {{ i.account }}：{{ i.context }}
                     </div></el-col
@@ -118,6 +118,22 @@
                       ><i class="fas fa-heart"></i> {{ i.likeNum }}</span
                     ></el-col
                   >
+                                   <el-col :span="1">
+                    <span v-if="!i.isCurrentUserPost" style="color: white"
+                      >.</span
+                    >
+                    <el-popconfirm
+                      v-else
+                      title="确定要删除这条评论吗？"
+                      icon="el-icon-info"
+                      icon-color="red"
+                      @onConfirm="deleteCom(i.id)"
+                    >
+                      <span class="deleteIcon" slot="reference">
+                        <i class="el-icon-circle-close"></i>
+                      </span>
+                    </el-popconfirm>
+                  </el-col>
                 </el-row>
               </el-card></el-col
             >
@@ -149,6 +165,7 @@ import { postComment } from "@/api";
 import { dianZan } from "@/api";
 import { postGrade } from "@/api";
 import { getUserGrade } from "@/api";
+import { deleteComment } from "@/api";
 
 export default {
   data() {
@@ -182,6 +199,7 @@ export default {
           gender: 0,
           id: 0,
           isCurrentUserLike: false,
+          isCurrentUserPost: false,
           likeNum: 0,
           owerId: 0,
         },
@@ -194,6 +212,29 @@ export default {
     Footer,
   },
   methods: {
+    deleteCom(comid) {
+      deleteComment(comid, this.$store.state.user.token).then((res) => {
+        if (res.data.code == 20000) {
+          this.$notify({
+            title: "评论删除成功！",
+            message: "期待您的下次评论~",
+            type: "success",
+            position: "bottom-right",
+          });
+          getComment(
+            2,
+            this.oneMovieInfo.id,
+            1,
+            20,
+            this.$store.state.user.token
+          ).then((res) => {
+            this.allComment = res.data.data.records;
+          });
+        } else {
+          console.log("评论删除失败", res);
+        }
+      });
+    },
     dafen() {
       if (this.toMarkValue != 0) {
         this.visible = false;
@@ -306,12 +347,12 @@ export default {
       this.oneMovieInfo = res.data.data;
       this.oneMovieInfo.img =
         this.$store.state.imgBaseUrl + this.oneMovieInfo.img;
-      console.log(this.oneMovieInfo);
+      // console.log(this.oneMovieInfo);
     });
     let token = this.$store.state.user.token;
     getComment(2, movieid, 1, 20, token).then((res) => {
       this.allComment = res.data.data.records;
-        // console.log(this.allComment);
+      // console.log(this.allComment);
     });
     getGrade(2, movieid).then((res) => {
       this.markValue = res.data.data.score;
@@ -320,11 +361,11 @@ export default {
       //   console.log(res);
     });
     getUserGrade(token, 2, movieid).then((res) => {
-      if(res.data.code == 20000){
+      if (res.data.code == 20000) {
         this.toMarkValue = res.data.data;
         this.rateSwatch = true;
       }
-      console.log(res);
+      // console.log(res);
     });
   },
 };
@@ -427,6 +468,7 @@ export default {
   margin-left: 1rem;
   text-align: left;
   width: 1200px;
+  overflow: auto;
 }
 .detailMark {
   margin-top: 1rem;
@@ -447,5 +489,9 @@ export default {
 }
 .commentTime {
   float: right;
+}
+.deleteIcon:hover {
+  cursor: pointer;
+  font-size: 18px;
 }
 </style>

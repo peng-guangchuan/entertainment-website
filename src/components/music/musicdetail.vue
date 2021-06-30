@@ -9,8 +9,9 @@
         <div class="detail_list_bg"></div>
         <div class="detail_list_filter"></div>
         <div class="detail_list_content">
-          <div class="detail_list_img">
+          <div class="detail_list_img" style="height:110px">
             <el-image
+            
               :src="oneMusicInfo.img"
               :preview-src-list="[oneMusicInfo.img]"
             >
@@ -19,13 +20,12 @@
               </div>
             </el-image>
           </div>
-          <div class="detail_list_info">
+          <div class="detail_list_info" style="max-width:300px">
             <h2>《{{ oneMusicInfo.name }}》</h2>
             <p>歌手：{{ oneMusicInfo.singer }}</p>
             <p>专辑：{{ oneMusicInfo.album }}</p>
-            <p>类型：{{ oneMusicInfo.genre }}</p>
           </div>
-          <div class="detailIntro">
+          <div class="detailIntro" >
             <p>歌曲歌词...</p>
             <p style="text-indent: 2em">{{ oneMusicInfo.lyric }}</p>
           </div>
@@ -99,7 +99,7 @@
                 class="commentCard"
               >
                 <el-row :gutter="20">
-                  <el-col :span="19"
+                  <el-col :span="18"
                     ><div class="commentText">
                       @ {{ i.account }}：{{ i.context }}
                     </div></el-col
@@ -117,6 +117,22 @@
                       ><i class="fas fa-heart"></i> {{ i.likeNum }}</span
                     ></el-col
                   >
+                                   <el-col :span="1">
+                    <span v-if="!i.isCurrentUserPost" style="color: white"
+                      >.</span
+                    >
+                    <el-popconfirm
+                      v-else
+                      title="确定要删除这条评论吗？"
+                      icon="el-icon-info"
+                      icon-color="red"
+                      @onConfirm="deleteCom(i.id)"
+                    >
+                      <span class="deleteIcon" slot="reference">
+                        <i class="el-icon-circle-close"></i>
+                      </span>
+                    </el-popconfirm>
+                  </el-col>
                 </el-row>
               </el-card></el-col
             >
@@ -148,6 +164,7 @@ import { postComment } from "@/api";
 import { dianZan } from "@/api";
 import { postGrade } from "@/api";
 import { getUserGrade } from "@/api";
+import { deleteComment } from "@/api";
 
 export default {
   data() {
@@ -161,15 +178,15 @@ export default {
       colors: ["#99A9BF", "#F7BA2A", "#FF9900"], // 等同于 { 2: '#99A9BF', 4: { value: '#F7BA2A', excluded: true }, 5: '#FF9900' }
       commentValue: "",
       oneMusicInfo: {
-          album: "",
-          id: 0,
-          img: "",
-          isRecommend: 0,
-          lyric: "",
-          name: "",
-          score: 0,
-          scoreNum: 0,
-          singer: "",
+        album: "",
+        id: 0,
+        img: "",
+        isRecommend: 0,
+        lyric: "",
+        name: "",
+        score: 0,
+        scoreNum: 0,
+        singer: "",
       },
       allComment: [
         {
@@ -179,6 +196,7 @@ export default {
           gender: 0,
           id: 0,
           isCurrentUserLike: false,
+          isCurrentUserPost: false,
           likeNum: 0,
           owerId: 0,
         },
@@ -191,6 +209,29 @@ export default {
     Footer,
   },
   methods: {
+    deleteCom(comid) {
+      deleteComment(comid, this.$store.state.user.token).then((res) => {
+        if (res.data.code == 20000) {
+          this.$notify({
+            title: "评论删除成功！",
+            message: "期待您的下次评论~",
+            type: "success",
+            position: "bottom-right",
+          });
+          getComment(
+            3,
+            this.oneMusicInfo.id,
+            1,
+            20,
+            this.$store.state.user.token
+          ).then((res) => {
+            this.allComment = res.data.data.records;
+          });
+        } else {
+          console.log("评论删除失败", res);
+        }
+      });
+    },
     dafen() {
       if (this.toMarkValue != 0) {
         this.visible = false;
@@ -211,7 +252,7 @@ export default {
               type: "success",
               position: "bottom-right",
             });
-           _this.rateSwatch = true;
+            _this.rateSwatch = true;
             setTimeout(() => {
               this.getNewGrade();
             }, 2000);
@@ -254,7 +295,7 @@ export default {
         this.commentValue
       ).then((res) => {
         if (res.data.code == 20000) {
-            // 获取评论的第三、四个参数写死了，没做分页
+          // 获取评论的第三、四个参数写死了，没做分页
           getComment(3, this.oneMusicInfo.id, 1, 20, token).then((res) => {
             this.allComment = res.data.data.records;
             //   console.log(this.allComment);
@@ -302,7 +343,7 @@ export default {
       this.oneMusicInfo = res.data.data;
       this.oneMusicInfo.img =
         this.$store.state.imgBaseUrl + this.oneMusicInfo.img;
-    //   console.log(this.oneMusicInfo);
+      //   console.log(this.oneMusicInfo);
     });
     let token = this.$store.state.user.token;
     getComment(3, musicid, 1, 20, token).then((res) => {
@@ -320,7 +361,7 @@ export default {
         this.toMarkValue = res.data.data;
         this.rateSwatch = true;
       }
-    //   console.log(res);
+      //   console.log(res);
     });
   },
 };
@@ -423,6 +464,8 @@ export default {
   margin-left: 1rem;
   text-align: left;
   width: 1200px;
+  height: 180px;
+  overflow: auto;
 }
 .detailMark {
   margin-top: 1rem;
@@ -443,5 +486,9 @@ export default {
 }
 .commentTime {
   float: right;
+}
+.deleteIcon:hover {
+  cursor: pointer;
+  font-size: 18px;
 }
 </style>

@@ -56,6 +56,11 @@ export const getAllBook = (page) => {
     return axios.get("/common/books?page=" + page + "&size=9");
 };
 
+// 搜索书籍信息接口
+export const getSearchBook = (content, sequence, page) => {
+    return axios.get("/common/books?content=" + content + "&sequence=" + sequence + "&page=" + page + "&size=9");
+}
+
 // 获取单个书籍信息接口
 export const getOneBook = (bookid) => {
     return axios.get("/common/book/" + bookid);
@@ -66,6 +71,11 @@ export const getAllMovies = (page) => {
     return axios.get("/common/movies?page=" + page + "&size=9");
 };
 
+// 搜索电影信息接口
+export const getSearchMovie = (content, sequence, page) => {
+    return axios.get("/common/movies?content=" + content + "&sequence=" + sequence + "&page=" + page + "&size=9");
+}
+
 // 获取单部电影信息接口
 export const getOneMovie = (movieid) => {
     return axios.get("/common/movie/" + movieid);
@@ -75,6 +85,11 @@ export const getOneMovie = (movieid) => {
 export const getAllMusic = (page) => {
     return axios.get("/common/musics?page=" + page + "&size=9");
 };
+
+// 搜索音乐信息接口
+export const getSearchMusic = (content, sequence, page) => {
+    return axios.get("/common/musics?content=" + content + "&sequence=" + sequence + "&page=" + page + "&size=9");
+}
 
 // 获取单个音乐接口
 export const getOneMusic = (musicid) => {
@@ -122,9 +137,14 @@ export const postGrade = (token, userId, entityType, entityId, score) => {
     return axios.post("/stu/grade", Qs.stringify(data), { headers: { token: token } });
 }
 
-// 获取用户是否打分情况
+// 获取用户是否打分情况接口
 export const getUserGrade = (token, entityType, entityId) => {
     return axios.get("/stu/grade?entityType=" + entityType + "&entityId=" + entityId, { headers: { token: token } });
+}
+
+// 删除评论接口
+export const deleteComment = (commentId, token) => {
+    return axios.delete("/stu/comment", { params: { "commentId": commentId }, headers: { token: token } });
 }
 
 export const getAllArticle = (page) => {

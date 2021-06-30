@@ -1,5 +1,33 @@
 <template>
   <div>
+    <div style="margin: 1rem" class="level-center">
+      <div class="level-item">
+        <p class="subtitle is-5"></p>
+      </div>
+      <div class="level-item">
+        <div class="field has-addons">
+          <p class="control">
+            <input
+              class="input"
+              type="text"
+              placeholder="Find a music"
+              v-model="searchKey"
+              @keyup.enter="searching()"
+            />
+          </p>
+          <p class="control">
+            <button class="button" @click="searching()">搜索</button>
+          </p>
+          <p class="control select">
+            <select v-model="selectValue">
+              <option value="0">综合排序</option>
+              <option value="1">评分降序</option>
+              <option value="2">评分升序</option>
+            </select>
+          </p>
+        </div>
+      </div>
+    </div>
     <el-row
       type="flex"
       justify="center"
@@ -53,10 +81,14 @@
 
 <script>
 import { getAllMusic } from "@/api";
+import { getSearchMusic } from "@/api";
 
 export default {
   data() {
     return {
+      searchKey: "",
+      selectValue: 0,
+      isSearch: false,
       currentp: 1,
       psize: 9,
       ptotal: 0,
@@ -77,27 +109,25 @@ export default {
     };
   },
   methods: {
-    findOneMusicInfo(musicid) {
-      this.$router.push({
-        path: "/musicdetail",
-        query: {
-          id: musicid,
-        },
-      });
+    searching() {
+      if (this.searchKey == "") {
+        this.$message({
+          showClose: true,
+          message: "请输入搜索内容！",
+          type: "warning",
+        });
+      } else {
+        this.isSearch = true;
+        this.getSearchMusicApi(1);
+      }
     },
-    getNextMusic() {
-      // console.log("getNextMusic");
-      getAllMusic(this.currentp).then((res) => {
-        // console.log("res=");
-        // console.log(res);
+    getSearchMusicApi(page) {
+      getSearchMusic(this.searchKey, this.selectValue, page).then((res) => {
         this.musics.length = 0;
         this.musicInfos.length = 0;
         this.musicInfos = res.data.data.records;
-        // console.log(this.musicInfos);
         this.currentp = res.data.data.current;
         this.ptotal = res.data.data.total;
-
-        // var temparr = []
         var temp = [];
         for (let i = 0; i < this.musicInfos.length; i++) {
           this.musicInfos[i].img =
@@ -106,38 +136,57 @@ export default {
             temp[temp.length] = this.musicInfos[i];
           } else {
             temp[temp.length] = this.musicInfos[i];
-            // temparr[temparr.length] = temp;
             this.musics.push(temp);
             temp = [];
           }
         }
-        // this.$set(this.musics, this., obj)
-        // console.log(this.musics);
+        if (temp.length != 0) {
+          this.musics.push(temp);
+        }
       });
+    },
+    findOneMusicInfo(musicid) {
+      this.$router.push({
+        path: "/musicdetail",
+        query: {
+          id: musicid,
+        },
+      });
+    },
+    getAllMusicApi(page) {
+      getAllMusic(page).then((res) => {
+        this.musics.length = 0;
+        this.musicInfos.length = 0;
+        this.musicInfos = res.data.data.records;
+        this.currentp = res.data.data.current;
+        this.ptotal = res.data.data.total;
+        var temp = [];
+        for (let i = 0; i < this.musicInfos.length; i++) {
+          this.musicInfos[i].img =
+            this.$store.state.imgBaseUrl + this.musicInfos[i].img;
+          if ((i + 1) % 3 != 0) {
+            temp[temp.length] = this.musicInfos[i];
+          } else {
+            temp[temp.length] = this.musicInfos[i];
+            this.musics.push(temp);
+            temp = [];
+          }
+        }
+        if (temp.length != 0) {
+          this.musics.push(temp);
+        }
+      });
+    },
+    getNextMusic() {
+      if (this.isSearch) {
+        this.getSearchMusicApi(this.currentp);
+      } else {
+        this.getAllMusicApi(this.currentp);
+      }
     },
   },
   mounted() {
-    getAllMusic(1).then((res) => {
-      // console.log("res=");
-      // console.log(res);
-      this.musicInfos = res.data.data.records;
-      // console.log(this.musicInfos);
-      this.currentp = res.data.data.current; // 分页可对数据转型
-      this.ptotal = res.data.data.total;
-      var temp = [];
-      for (let i = 0; i < this.musicInfos.length; i++) {
-        this.musicInfos[i].img =
-          this.$store.state.imgBaseUrl + this.musicInfos[i].img;
-        if ((i + 1) % 3 != 0) {
-          temp[temp.length] = this.musicInfos[i];
-        } else {
-          temp[temp.length] = this.musicInfos[i];
-          this.musics[this.musics.length] = temp;
-          temp = [];
-        }
-      }
-      // console.log(this.musics);
-    });
+    this.getAllMusicApi(1);
   },
   computed: {},
 };
@@ -152,4 +201,3 @@ export default {
   margin-bottom: 2rem;
 }
 </style>
-

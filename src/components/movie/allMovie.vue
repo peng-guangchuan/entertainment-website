@@ -1,5 +1,33 @@
 <template>
   <div>
+    <div style="margin: 1rem" class="level-center">
+      <div class="level-item">
+        <p class="subtitle is-5"></p>
+      </div>
+      <div class="level-item">
+        <div class="field has-addons">
+          <p class="control">
+            <input
+              class="input"
+              type="text"
+              placeholder="Find a movie"
+              v-model="searchKey"
+              @keyup.enter="searching()"
+            />
+          </p>
+          <p class="control">
+            <button class="button" @click="searching()">搜索</button>
+          </p>
+          <p class="control select">
+            <select v-model="selectValue">
+              <option value="0">综合排序</option>
+              <option value="1">评分降序</option>
+              <option value="2">评分升序</option>
+            </select>
+          </p>
+        </div>
+      </div>
+    </div>
     <el-row
       type="flex"
       justify="center"
@@ -24,7 +52,7 @@
               加载中<span class="dot">...</span>
             </div>
           </el-image>
-          <div style="padding: 14px;">
+          <div style="padding: 14px">
             <div>《{{ o.name }}》</div>
             <div>导演：{{ o.director }}</div>
             <div>类型：{{ o.genre }}</div>
@@ -53,10 +81,14 @@
 
 <script>
 import { getAllMovies } from "@/api";
+import { getSearchMovie } from "@/api";
 
 export default {
   data() {
     return {
+      searchKey: "",
+      selectValue: 0,
+      isSearch: false,
       currentp: 1,
       psize: 9,
       ptotal: 0,
@@ -79,27 +111,25 @@ export default {
     };
   },
   methods: {
-    findOneMovieInfo(movieid) {
-      this.$router.push({
-        path: "/moviedetail",
-        query: {
-          id: movieid,
-        },
-      });
+    searching() {
+      if (this.searchKey == "") {
+        this.$message({
+          showClose: true,
+          message: "请输入搜索内容！",
+          type: "warning",
+        });
+      } else {
+        this.isSearch = true;
+        this.getSearchMovieApi(1);
+      }
     },
-    getNextMovies() {
-      // console.log("getNextMovies");
-      getAllMovies(this.currentp).then((res) => {
-        // console.log("res=");
-        // console.log(res);
+    getSearchMovieApi(page) {
+      getSearchMovie(this.searchKey, this.selectValue, page).then((res) => {
         this.movies.length = 0;
         this.movieInfos.length = 0;
         this.movieInfos = res.data.data.records;
-        // console.log(this.movieInfos);
         this.currentp = res.data.data.current;
         this.ptotal = res.data.data.total;
-
-        // var temparr = []
         var temp = [];
         for (let i = 0; i < this.movieInfos.length; i++) {
           this.movieInfos[i].img =
@@ -108,38 +138,57 @@ export default {
             temp[temp.length] = this.movieInfos[i];
           } else {
             temp[temp.length] = this.movieInfos[i];
-            // temparr[temparr.length] = temp;
             this.movies.push(temp);
             temp = [];
           }
         }
-        // this.$set(this.movies, this., obj)
-        // console.log(this.movies);
+        if (temp.length != 0) {
+          this.movies.push(temp);
+        }
       });
+    },
+    findOneMovieInfo(movieid) {
+      this.$router.push({
+        path: "/moviedetail",
+        query: {
+          id: movieid,
+        },
+      });
+    },
+    getAllMoviesApi(page) {
+      getAllMovies(page).then((res) => {
+        this.movies.length = 0;
+        this.movieInfos.length = 0;
+        this.movieInfos = res.data.data.records;
+        this.currentp = res.data.data.current;
+        this.ptotal = res.data.data.total;
+        var temp = [];
+        for (let i = 0; i < this.movieInfos.length; i++) {
+          this.movieInfos[i].img =
+            this.$store.state.imgBaseUrl + this.movieInfos[i].img;
+          if ((i + 1) % 3 != 0) {
+            temp[temp.length] = this.movieInfos[i];
+          } else {
+            temp[temp.length] = this.movieInfos[i];
+            this.movies.push(temp);
+            temp = [];
+          }
+        }
+        if (temp.length != 0) {
+          this.movies.push(temp);
+        }
+      });
+    },
+    getNextMovies() {
+      if (this.isSearch) {
+        this.getSearchMovieApi(this.currentp);
+      } else {
+        this.getAllMoviesApi(this.currentp);
+      }
     },
   },
   mounted() {
-    getAllMovies(1).then((res) => {
-      // console.log("res=");
-      // console.log(res);
-      this.movieInfos = res.data.data.records;
-      // console.log(this.movieInfos);
-      this.currentp = res.data.data.current; // 分页可对数据转型
-      this.ptotal = res.data.data.total;
-      var temp = [];
-      for (let i = 0; i < this.movieInfos.length; i++) {
-        this.movieInfos[i].img =
-          this.$store.state.imgBaseUrl + this.movieInfos[i].img;
-        if ((i + 1) % 3 != 0) {
-          temp[temp.length] = this.movieInfos[i];
-        } else {
-          temp[temp.length] = this.movieInfos[i];
-          this.movies[this.movies.length] = temp;
-          temp = [];
-        }
-      }
-      // console.log(this.movies);
-    });
+    this.getAllMoviesApi(1);
   },
   computed: {},
 };

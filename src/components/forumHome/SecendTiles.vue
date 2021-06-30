@@ -10,53 +10,6 @@
             <div class="fuck">
               <p class="title">校园最新活动</p>
               <hr />
-              <!-- <div class="box" v-for="(item, i) in info" :key="i">
-                <article class="media">
-                  <figure class="media-left">
-                    <p class="image is-64x64">
-                      <img :src="require(`@/assets/${item.user.userImg}`)" class="size" />
-                    </p>
-                  </figure>
-                  <div class="media-content">
-                    <div class="content">
-                      <p>
-                        <strong>{{ item.user.userName }}</strong>
-                        <br />
-                        {{ item.article.artTitle }}
-                      </p>
-                    </div>
-                    <nav class="level is-mobile">
-                      <div class="level-left">
-                        <a class="level-item">
-                          <span class="icon is-small">
-                            <i class="fab fa-hotjar"></i>
-                          </span>
-                          {{ item.article.artHotNum }}
-                        </a>
-
-                        <a class="level-item">
-                          <span class="icon is-small">
-                            <i class="fas fa-comment-dots"></i>
-                          </span>
-                          {{ item.article.artComNum }}
-                        </a>
-
-                        <a class="level-item">
-                          <span class="icon is-small">
-                            <i class="fas fa-heart"></i>
-                          </span>
-                          {{ item.article.artLikeNum }}
-                        </a>
-                      </div>
-                    </nav>
-                  </div>
-                  <div class="media-right">
-                    <a class="navbar-item" slot="trigger" role="button">
-                      <b-button type="is-info" @click="detail(i)">查看详情</b-button>
-                    </a>
-                  </div>
-                </article>
-              </div> -->
               <li>1</li>
               <li>1</li>
               <li>1</li>
@@ -105,37 +58,6 @@
         <div class="content">
           <p class="title">高分推荐榜</p>
           <hr />
-          <!-- <div class="card" v-for="(user, k) in users" :key="k">
-            <div class="card-content">
-              <div class="media">
-                <div class="media-left">
-                  <figure class="image is-48x48">
-                    <img
-                      :src="require(`@/assets/${user.userImg}`)"
-                      class="size"
-                    />
-                  </figure>
-                </div>
-                <div class="media-content">
-                  <p class="title is-4" v-if="user.userSex === '女'">
-                    大名：{{ user.userName }}
-                    <i class="fas fa-female"></i>
-                  </p>
-                  <p class="title is-4" v-else>
-                    大名：{{ user.userName }}
-                    <i class="fas fa-male"></i>
-                  </p>
-                </div>
-              </div>
-              <div class="content">
-                <p>格言：{{ user.userShow }}</p>
-                <i class="far fa-hand-point-right">个人主页</i>
-                <br />粉丝数：
-                <i class="fab fa-gratipay">{{ user.userFans }}</i>
-                <br />
-              </div>
-            </div>
-          </div> -->
           <li>1</li>
           <li>1</li>
           <li>1</li>
