@@ -76,6 +76,11 @@ export const getAllMusic = (page) => {
     return axios.get("/common/musics?page=" + page + "&size=9");
 };
 
+// 获取单个音乐接口
+export const getOneMusic = (musicid) => {
+    return axios.get("/common/music/" + musicid)
+}
+
 // 获取评论接口
 export const getComment = (type, id, page, size, token) => {
     return axios.get("/common/comments?type=" + type + "&id=" + id + "&page=" + page + "&size=" + size, { headers: { token: token } }
@@ -115,6 +120,11 @@ export const getNewMusic = () => {
 export const postGrade = (token, userId, entityType, entityId, score) => {
     let data = { 'userId': userId, 'entityType': entityType, 'entityId': entityId, 'score': score };
     return axios.post("/stu/grade", Qs.stringify(data), { headers: { token: token } });
+}
+
+// 获取用户是否打分情况
+export const getUserGrade = (token, entityType, entityId) => {
+    return axios.get("/stu/grade?entityType=" + entityType + "&entityId=" + entityId, { headers: { token: token } });
 }
 
 export const getAllArticle = (page) => {

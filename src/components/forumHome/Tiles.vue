@@ -44,10 +44,15 @@
                   </div>
                 </el-image>
                 <div style="padding: 14px">
-                  <div>歌名：{{ o.name }}</div>
+                  <div>《{{ o.name }}》</div>
                   <div>歌手：{{ o.singer }}</div>
                   <div>专辑：{{ o.album }}</div>
-                  <el-button type="text" class="button">查看详情</el-button>
+                  <el-button
+                    type="text"
+                    class="button"
+                    @click="findOneMusicInfo(o.id)"
+                    >查看详情</el-button
+                  >
                 </div>
               </el-card>
             </div>
@@ -72,7 +77,12 @@
                   <div>《{{ o.name }}》</div>
                   <div>导演：{{ o.director }}</div>
                   <div>类型：{{ o.genre }}</div>
-                  <el-button type="text" class="button">查看详情</el-button>
+                  <el-button
+                    type="text"
+                    class="button"
+                    @click="findOneMovieInfo(o.id)"
+                    >查看详情</el-button
+                  >
                 </div>
               </el-card>
             </div>
@@ -80,63 +90,6 @@
         </el-carousel>
       </article>
     </div>
-    <!-- <div class="tile is-parent is-8">
-      <article class="tile is-child box">
-        <p align="right">
-          <b-button type="button is-info" outlined @click="allart">全部帖子</b-button>
-        </p>
-        <p class="subtitle">热门帖子</p>
-
-        <div class="box" v-for="(item, i) in $store.state.info" :key="i">
-          <article class="media">
-            <figure class="media-left">
-              <p class="image is-64x64">
-                <img :src="require(`@/assets/${item.user.userImg}`)" class="size" />
-              </p>
-            </figure>
-            <div class="media-content">
-              <div class="content">
-                <p>
-                  <strong>{{ item.user.userName }}</strong>
-                  <br />
-                  {{ item.article.artTitle }}
-                </p>
-              </div>
-              <nav class="level is-mobile">
-                <div class="level-left">
-                  <a class="level-item">
-                    <span class="icon is-small">
-                      <i class="fab fa-hotjar"></i>
-                    </span>
-                    {{ item.article.artHotNum }}
-                  </a>
-
-                  <a class="level-item">
-                    <span class="icon is-small">
-                      <i class="fas fa-comment-dots"></i>
-                    </span>
-                    {{ item.article.artComNum }}
-                  </a>
-
-                  <a class="level-item">
-                    <span class="icon is-small">
-                      <i class="fas fa-heart"></i>
-                    </span>
-                    {{ item.article.artLikeNum }}
-                  </a>
-                </div>
-              </nav>
-            </div>
-            <div class="media-right">
-              <a class="navbar-item" slot="trigger" role="button">
-                <b-button type="is-info" outlined @click="details(i)">查看详情</b-button>
-              </a>
-            </div>
-          </article>
-        </div>
-        <Pageination />
-      </article>
-    </div> -->
   </div>
 </template>
 
@@ -144,7 +97,6 @@
 import { getNewBook } from "@/api";
 import { getNewMovie } from "@/api";
 import { getNewMusic } from "@/api";
-
 // import Pageination from "../forumHome/Pageination.vue";
 
 export default {
@@ -211,6 +163,22 @@ export default {
         },
       });
     },
+    findOneMovieInfo(movieid) {
+      this.$router.push({
+        path: "/moviedetail",
+        query: {
+          id: movieid,
+        },
+      });
+    },
+    findOneMusicInfo(musicid) {
+      this.$router.push({
+        path: "/musicdetail",
+        query: {
+          id: musicid,
+        },
+      });
+    },
   },
   mounted() {
     getNewBook().then((res) => {
@@ -219,7 +187,7 @@ export default {
         this.booksInfo[i].img =
           this.$store.state.imgBaseUrl + this.booksInfo[i].img;
       }
-      console.log("newbook", this.booksInfo);
+      // console.log("newbook", this.booksInfo);
     });
     getNewMovie().then((res) => {
       this.moviesInfo = res.data.data;
@@ -227,7 +195,7 @@ export default {
         this.moviesInfo[i].img =
           this.$store.state.imgBaseUrl + this.moviesInfo[i].img;
       }
-      console.log("newmOvie", this.moviesInfo);
+      // console.log("newmOvie", this.moviesInfo);
     });
     getNewMusic().then((res) => {
       this.musicsInfo = res.data.data;
@@ -243,7 +211,6 @@ export default {
     //       this.contents = data.content;
     //     })
     //     .catch(() => {});
-
     //   this.$store.dispatch("getpagemain");
     //   //bug，应该用action异步处理，再提交commit状态，明日更新（已解决）
     //   // getPageMain()

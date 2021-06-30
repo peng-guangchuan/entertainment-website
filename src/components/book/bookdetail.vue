@@ -149,9 +149,9 @@ import { getGrade } from "@/api";
 import { postComment } from "@/api";
 import { dianZan } from "@/api";
 import { postGrade } from "@/api";
+import { getUserGrade } from "@/api";
 
 export default {
-  name: "detail",
   data() {
     return {
       dianzanIcon: 0,
@@ -198,6 +198,7 @@ export default {
     dafen() {
       if (this.toMarkValue != 0) {
         this.visible = false;
+        var _this = this; // 方便内部使用this
         let token = this.$store.state.user.token;
         let userId = this.$store.state.user.id;
         postGrade(token, userId, 1, this.oneBookInfo.id, this.toMarkValue).then(
@@ -209,7 +210,10 @@ export default {
                 type: "success",
                 position: "bottom-right",
               });
-              this.rateSwatch = true;
+              _this.rateSwatch = true;
+              setTimeout(() => {
+                this.getNewGrade();
+              }, 2000);
             } else {
               this.$notify.info({
                 title: "评分失败。",
@@ -222,9 +226,27 @@ export default {
         );
       }
     },
+    getNewGrade() {
+      getGrade(1, this.oneBookInfo.id).then((res) => {
+        this.markValue = res.data.data.score;
+        this.markNum = res.data.data.num;
+        //   console.log("grade");
+        //   console.log(res);
+      });
+    },
     postcomm() {
+      if (!this.$store.state.isLogin) {
+        this.$notify.info({
+          title: "评论发布失败。",
+          message: "请先进行账号登陆~",
+          position: "bottom-right",
+        });
+        return;
+      }
+      // console.log("postcomm");
       let token = this.$store.state.user.token;
       let ownerId = this.$store.state.user.id;
+      // 第二个参数：评论作品的类型，第五个为评论类型，短评为0
       postComment(
         token,
         1,
@@ -234,7 +256,7 @@ export default {
         this.commentValue
       ).then((res) => {
         if (res.data.code == 20000) {
-          // 第四个参数写死了，没做分页
+          // 获取评论的第三、四个参数写死了，没做分页
           getComment(1, this.oneBookInfo.id, 1, 20, token).then((res) => {
             this.allComment = res.data.data.records;
             //   console.log(this.allComment);
@@ -246,7 +268,7 @@ export default {
             position: "bottom-right",
           });
         }
-        console.log("postCommentRes", res);
+        // console.log("postCommentRes", res);
       });
     },
     dianzan(commentId) {
@@ -259,7 +281,7 @@ export default {
             position: "bottom-right",
           });
           let token = this.$store.state.user.token;
-          getComment(1, this.oneBookInfo.id, 1, 10, token).then((res) => {
+          getComment(1, this.oneBookInfo.id, 1, 20, token).then((res) => {
             this.allComment = res.data.data.records;
             //   console.log(this.allComment);
           });
@@ -285,9 +307,9 @@ export default {
       //   console.log(this.oneBookInfo);
     });
     let token = this.$store.state.user.token;
-    getComment(1, bookid, 1, 10, token).then((res) => {
+    getComment(1, bookid, 1, 20, token).then((res) => {
       this.allComment = res.data.data.records;
-      //   console.log(this.allComment);
+      // console.log("mountgetcomment",this.allComment);
     });
     getGrade(1, bookid).then((res) => {
       this.markValue = res.data.data.score;
@@ -295,7 +317,13 @@ export default {
       //   console.log("grade");
       //   console.log(res);
     });
-    // 旁段是否有打过分，首页6个（背景）
+    getUserGrade(token, 1, bookid).then((res) => {
+      if (res.data.code == 20000) {
+        this.toMarkValue = res.data.data;
+        this.rateSwatch = true;
+      }
+      // console.log(res);
+    });
   },
 };
 </script>

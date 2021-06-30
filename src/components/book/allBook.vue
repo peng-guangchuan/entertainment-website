@@ -15,7 +15,11 @@
         :offset="index > 0 ? 1 : 0"
       >
         <el-card :body-style="{ padding: '0px' }" shadow="hover">
-          <el-image style="width:235px;height:260px;" :src="o.img" :preview-src-list="[o.img]">
+          <el-image
+            style="width: 235px; height: 260px"
+            :src="o.img"
+            :preview-src-list="[o.img]"
+          >
             <div slot="placeholder" class="image-slot">
               加载中<span class="dot">...</span>
             </div>
@@ -149,7 +153,8 @@ export default {
         // var temparr = []
         var temp = [];
         for (let i = 0; i < this.bookInfos.length; i++) {
-          this.bookInfos[i].img = this.$store.state.imgBaseUrl   + this.bookInfos[i].img;
+          this.bookInfos[i].img =
+            this.$store.state.imgBaseUrl + this.bookInfos[i].img;
           if ((i + 1) % 3 != 0) {
             temp[temp.length] = this.bookInfos[i];
           } else {
@@ -174,7 +179,8 @@ export default {
       this.ptotal = res.data.data.total;
       var temp = [];
       for (let i = 0; i < this.bookInfos.length; i++) {
-        this.bookInfos[i].img = this.$store.state.imgBaseUrl + this.bookInfos[i].img;
+        this.bookInfos[i].img =
+          this.$store.state.imgBaseUrl + this.bookInfos[i].img;
         if ((i + 1) % 3 != 0) {
           temp[temp.length] = this.bookInfos[i];
         } else {

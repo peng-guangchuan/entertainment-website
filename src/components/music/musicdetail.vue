@@ -1,7 +1,7 @@
 <template>
   <div id="detailContrainer" class="slide-enter-active">
     <Top />
-    <Header title="电影详情">
+    <Header title="音乐详情">
       <i class="iconfont icon-right"></i>
     </Header>
     <div id="content" class="contentDetail">
@@ -11,8 +11,8 @@
         <div class="detail_list_content">
           <div class="detail_list_img">
             <el-image
-              :src="oneMovieInfo.img"
-              :preview-src-list="[oneMovieInfo.img]"
+              :src="oneMusicInfo.img"
+              :preview-src-list="[oneMusicInfo.img]"
             >
               <div slot="placeholder" class="image-slot">
                 加载中<span class="dot">...</span>
@@ -20,15 +20,14 @@
             </el-image>
           </div>
           <div class="detail_list_info">
-            <h2>《{{ oneMovieInfo.name }}》</h2>
-            <p>导演：{{ oneMovieInfo.director }}</p>
-            <p>演员：{{ oneMovieInfo.actor }}</p>
-            <p>类型：{{ oneMovieInfo.genre }}</p>
-            <p>上映时间：{{ oneMovieInfo.showtime }}</p>
+            <h2>《{{ oneMusicInfo.name }}》</h2>
+            <p>歌手：{{ oneMusicInfo.singer }}</p>
+            <p>专辑：{{ oneMusicInfo.album }}</p>
+            <p>类型：{{ oneMusicInfo.genre }}</p>
           </div>
           <div class="detailIntro">
-            <p>内容简介...</p>
-            <p style="text-indent: 2em">{{ oneMovieInfo.description }}</p>
+            <p>歌曲歌词...</p>
+            <p style="text-indent: 2em">{{ oneMusicInfo.lyric }}</p>
           </div>
           <div class="detailMark">
             <div>
@@ -142,7 +141,7 @@
 import Header from "../book/header";
 import Top from "../forumHome/Top";
 import Footer from "../forumHome/Footer";
-import { getOneMovie } from "@/api";
+import { getOneMusic } from "@/api";
 import { getComment } from "@/api";
 import { getGrade } from "@/api";
 import { postComment } from "@/api";
@@ -161,18 +160,16 @@ export default {
       toMarkValue: 0,
       colors: ["#99A9BF", "#F7BA2A", "#FF9900"], // 等同于 { 2: '#99A9BF', 4: { value: '#F7BA2A', excluded: true }, 5: '#FF9900' }
       commentValue: "",
-      oneMovieInfo: {
-        isRecommend: 0,
-        score: 0,
-        scoreNum: 0,
-        id: 0,
-        name: "",
-        showtime: "",
-        director: "",
-        genre: "",
-        description: "",
-        actor: "",
-        img: "",
+      oneMusicInfo: {
+          album: "",
+          id: 0,
+          img: "",
+          isRecommend: 0,
+          lyric: "",
+          name: "",
+          score: 0,
+          scoreNum: 0,
+          singer: "",
       },
       allComment: [
         {
@@ -197,14 +194,14 @@ export default {
     dafen() {
       if (this.toMarkValue != 0) {
         this.visible = false;
-        var _this = this; // 方便内部使用this
+        var _this = this;
         let token = this.$store.state.user.token;
         let userId = this.$store.state.user.id;
         postGrade(
           token,
           userId,
-          2,
-          this.oneMovieInfo.id,
+          3,
+          this.oneMusicInfo.id,
           this.toMarkValue
         ).then((res) => {
           if (res.data.code == 20000) {
@@ -214,7 +211,7 @@ export default {
               type: "success",
               position: "bottom-right",
             });
-            _this.rateSwatch = true;
+           _this.rateSwatch = true;
             setTimeout(() => {
               this.getNewGrade();
             }, 2000);
@@ -230,7 +227,7 @@ export default {
       }
     },
     getNewGrade() {
-      getGrade(2, this.oneMovieInfo.id).then((res) => {
+      getGrade(3, this.oneMusicInfo.id).then((res) => {
         this.markValue = res.data.data.score;
         this.markNum = res.data.data.num;
         //   console.log("grade");
@@ -250,15 +247,15 @@ export default {
       let ownerId = this.$store.state.user.id;
       postComment(
         token,
-        2,
-        this.oneMovieInfo.id,
+        3,
+        this.oneMusicInfo.id,
         ownerId,
         0,
         this.commentValue
       ).then((res) => {
         if (res.data.code == 20000) {
-          getComment(2, this.oneMovieInfo.id, 1, 20, token).then((res) => {
-            // 第四个参数写死了，没做分页
+            // 获取评论的第三、四个参数写死了，没做分页
+          getComment(3, this.oneMusicInfo.id, 1, 20, token).then((res) => {
             this.allComment = res.data.data.records;
             //   console.log(this.allComment);
           });
@@ -282,8 +279,7 @@ export default {
             position: "bottom-right",
           });
           let token = this.$store.state.user.token;
-          // 获取评论的第三、四个参数写死了，没做分页
-          getComment(2, this.oneMovieInfo.id, 1, 20, token).then((res) => {
+          getComment(3, this.oneMusicInfo.id, 1, 20, token).then((res) => {
             this.allComment = res.data.data.records;
             //   console.log(this.allComment);
           });
@@ -300,31 +296,31 @@ export default {
     },
   },
   mounted() {
-    let movieid = this.$route.query.id;
-    getOneMovie(movieid).then((res) => {
+    let musicid = this.$route.query.id;
+    getOneMusic(musicid).then((res) => {
       //   console.log(res);
-      this.oneMovieInfo = res.data.data;
-      this.oneMovieInfo.img =
-        this.$store.state.imgBaseUrl + this.oneMovieInfo.img;
-      console.log(this.oneMovieInfo);
+      this.oneMusicInfo = res.data.data;
+      this.oneMusicInfo.img =
+        this.$store.state.imgBaseUrl + this.oneMusicInfo.img;
+    //   console.log(this.oneMusicInfo);
     });
     let token = this.$store.state.user.token;
-    getComment(2, movieid, 1, 20, token).then((res) => {
+    getComment(3, musicid, 1, 20, token).then((res) => {
       this.allComment = res.data.data.records;
-        // console.log(this.allComment);
+      //   console.log(this.allComment);
     });
-    getGrade(2, movieid).then((res) => {
+    getGrade(3, musicid).then((res) => {
       this.markValue = res.data.data.score;
       this.markNum = res.data.data.num;
       //   console.log("grade");
       //   console.log(res);
     });
-    getUserGrade(token, 2, movieid).then((res) => {
-      if(res.data.code == 20000){
+    getUserGrade(token, 3, musicid).then((res) => {
+      if (res.data.code == 20000) {
         this.toMarkValue = res.data.data;
         this.rateSwatch = true;
       }
-      console.log(res);
+    //   console.log(res);
     });
   },
 };

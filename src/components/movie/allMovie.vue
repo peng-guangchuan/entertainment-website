@@ -24,11 +24,16 @@
               加载中<span class="dot">...</span>
             </div>
           </el-image>
-          <div style="padding: 14px">
+          <div style="padding: 14px;">
             <div>《{{ o.name }}》</div>
             <div>导演：{{ o.director }}</div>
             <div>类型：{{ o.genre }}</div>
-            <el-button type="text" class="button">查看详情</el-button>
+            <el-button
+              type="text"
+              class="button"
+              @click="findOneMovieInfo(o.id)"
+              >查看详情</el-button
+            >
           </div>
         </el-card>
       </el-col>
@@ -74,8 +79,16 @@ export default {
     };
   },
   methods: {
+    findOneMovieInfo(movieid) {
+      this.$router.push({
+        path: "/moviedetail",
+        query: {
+          id: movieid,
+        },
+      });
+    },
     getNextMovies() {
-      console.log("getNextMovies");
+      // console.log("getNextMovies");
       getAllMovies(this.currentp).then((res) => {
         // console.log("res=");
         // console.log(res);

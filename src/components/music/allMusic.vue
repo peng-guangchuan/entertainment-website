@@ -25,10 +25,15 @@
             </div>
           </el-image>
           <div style="padding: 14px">
-            <div>歌名：{{ o.name }}</div>
+            <div>《{{ o.name }}》</div>
             <div>歌手：{{ o.singer }}</div>
             <div>专辑：{{ o.album }}</div>
-            <el-button type="text" class="button">查看详情</el-button>
+            <el-button
+              type="text"
+              class="button"
+              @click="findOneMusicInfo(o.id)"
+              >查看详情</el-button
+            >
           </div>
         </el-card>
       </el-col>
@@ -72,8 +77,16 @@ export default {
     };
   },
   methods: {
+    findOneMusicInfo(musicid) {
+      this.$router.push({
+        path: "/musicdetail",
+        query: {
+          id: musicid,
+        },
+      });
+    },
     getNextMusic() {
-      console.log("getNextMusic");
+      // console.log("getNextMusic");
       getAllMusic(this.currentp).then((res) => {
         // console.log("res=");
         // console.log(res);
@@ -87,7 +100,8 @@ export default {
         // var temparr = []
         var temp = [];
         for (let i = 0; i < this.musicInfos.length; i++) {
-          this.musicInfos[i].img = this.$store.state.imgBaseUrl   + this.musicInfos[i].img;
+          this.musicInfos[i].img =
+            this.$store.state.imgBaseUrl + this.musicInfos[i].img;
           if ((i + 1) % 3 != 0) {
             temp[temp.length] = this.musicInfos[i];
           } else {
@@ -112,7 +126,8 @@ export default {
       this.ptotal = res.data.data.total;
       var temp = [];
       for (let i = 0; i < this.musicInfos.length; i++) {
-        this.musicInfos[i].img = this.$store.state.imgBaseUrl   + this.musicInfos[i].img;
+        this.musicInfos[i].img =
+          this.$store.state.imgBaseUrl + this.musicInfos[i].img;
         if ((i + 1) % 3 != 0) {
           temp[temp.length] = this.musicInfos[i];
         } else {
@@ -121,7 +136,7 @@ export default {
           temp = [];
         }
       }
-      console.log(this.musics);
+      // console.log(this.musics);
     });
   },
   computed: {},

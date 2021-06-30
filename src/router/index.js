@@ -31,9 +31,19 @@ const routes = [
     component: () => import("../components/movie/moviehome.vue")
   },
   {
+    path: "/moviedetail",
+    name: "moviedetail",
+    component: () => import("../components/movie/moviedetail.vue")
+  },
+  {
     path: "/musichome",
     name: "musichome",
     component: () => import("../components/music/musichome.vue")
+  },
+  {
+    path: "/musicdetail",
+    name: "musicdetail",
+    component: () => import("../components/music/musicdetail.vue")
   },
   {
     path: "/loginbackstage",
