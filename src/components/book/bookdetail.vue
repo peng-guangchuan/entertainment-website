@@ -19,7 +19,7 @@
               </div>
             </el-image>
           </div>
-          <div class="detail_list_info" style="max-width:300px">
+          <div class="detail_list_info" style="max-width: 300px">
             <h2>《{{ oneBookInfo.name }}》</h2>
             <p>作者：{{ oneBookInfo.author }}</p>
             <p>出版社：{{ oneBookInfo.publisher }}</p>
@@ -156,8 +156,8 @@
 
 <script>
 import Header from "./header";
-import Top from "../forumHome/Top";
-import Footer from "../forumHome/Footer";
+import Top from "../webHome/Top";
+import Footer from "../webHome/Footer";
 import { getOneBook } from "@/api";
 import { getComment } from "@/api";
 import { getGrade } from "@/api";
@@ -261,7 +261,6 @@ export default {
                 position: "bottom-right",
               });
             }
-            // console.log("postGRADE=", res);
           }
         );
       }
@@ -270,8 +269,6 @@ export default {
       getGrade(1, this.oneBookInfo.id).then((res) => {
         this.markValue = res.data.data.score;
         this.markNum = res.data.data.num;
-        //   console.log("grade");
-        //   console.log(res);
       });
     },
     postcomm() {
@@ -283,7 +280,6 @@ export default {
         });
         return;
       }
-      // console.log("postcomm");
       let token = this.$store.state.user.token;
       let ownerId = this.$store.state.user.id;
       // 第二个参数：评论作品的类型，第五个为评论类型，短评为0
@@ -299,7 +295,6 @@ export default {
           // 获取评论的第三、四个参数写死了，没做分页
           getComment(1, this.oneBookInfo.id, 1, 20, token).then((res) => {
             this.allComment = res.data.data.records;
-            //   console.log(this.allComment);
           });
           this.$notify({
             title: "评论发布成功！",
@@ -308,7 +303,6 @@ export default {
             position: "bottom-right",
           });
         }
-        // console.log("postCommentRes", res);
       });
     },
     dianzan(commentId) {
@@ -323,7 +317,6 @@ export default {
           let token = this.$store.state.user.token;
           getComment(1, this.oneBookInfo.id, 1, 20, token).then((res) => {
             this.allComment = res.data.data.records;
-            //   console.log(this.allComment);
           });
         } else if (res.data.code == 21006) {
           this.$notify.info({
@@ -332,37 +325,29 @@ export default {
             position: "bottom-right",
           });
         }
-        // console.log("dianzan");
-        // console.log(res.data);
       });
     },
   },
   mounted() {
     let bookid = this.$route.query.id;
     getOneBook(bookid).then((res) => {
-      //   console.log(res);
       this.oneBookInfo = res.data.data;
       this.oneBookInfo.img =
         this.$store.state.imgBaseUrl + this.oneBookInfo.img;
-      //   console.log(this.oneBookInfo);
     });
     let token = this.$store.state.user.token;
     getComment(1, bookid, 1, 20, token).then((res) => {
       this.allComment = res.data.data.records;
-      // console.log("mountgetcomment", this.allComment);
     });
     getGrade(1, bookid).then((res) => {
       this.markValue = res.data.data.score;
       this.markNum = res.data.data.num;
-      //   console.log("grade");
-      //   console.log(res);
     });
     getUserGrade(token, 1, bookid).then((res) => {
       if (res.data.code == 20000) {
         this.toMarkValue = res.data.data;
         this.rateSwatch = true;
       }
-      // console.log(res);
     });
   },
 };

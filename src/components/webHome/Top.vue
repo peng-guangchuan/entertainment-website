@@ -19,31 +19,17 @@
 
     <div id="navbarBasicExample" class="navbar-menu">
       <div class="navbar-start">
-        <a class="navbar-item" @click="goHome">首页</a>
-        <a class="navbar-item" @click="goRead">读书</a>
-        <a class="navbar-item" @click="goListen">音乐</a>
-        <a class="navbar-item" @click="goWatch">电影</a>
-        <!-- <div class="level-left">
-          <div class="level-item">
-            <p class="subtitle is-5"></p>
-          </div>
-          <div class="level-item">
-            <div class="field has-addons">
-              <p class="control">
-                <input class="input" type="text" placeholder="Find a post" />
-              </p>
-              <p class="control">
-                <button class="button">搜索</button>
-              </p>
-            </div>
-          </div>
-        </div> -->
+        <a class="navbar-item" @click="goHome()">首页</a>
+        <a class="navbar-item" @click="goRead()">读书</a>
+        <a class="navbar-item" @click="goListen()">音乐</a>
+        <a class="navbar-item" @click="goWatch()">电影</a>
+        <a class="navbar-item" @click="goActivity()">活动</a>
       </div>
 
       <div class="navbar-end" v-if="!$store.state.isLogin">
         <div class="navbar-item">
           <div class="buttons">
-            <b-button type="is-info" outlined @click="register">注册</b-button>
+            <b-button type="is-info" outlined @click="register()">注册</b-button>
             <div class="navbar-menu">
               <div class="navbar-end">
                 <b-dropdown
@@ -86,7 +72,7 @@
                         <b-checkbox>记住我</b-checkbox>
                       </section>
                       <footer class="modal-card-foot">
-                        <button class="button is-primary" @click="login">
+                        <button class="button is-primary" @click="login()">
                           登录
                         </button>
                       </footer>
@@ -98,14 +84,6 @@
           </div>
         </div>
       </div>
-      <!-- <div v-else-if="$store.state.isLogin">
-        <div>
-          <i class="far fa-address-card">{{ $store.state.user.userName }}</i>
-        </div>
-        <div @click="logout">
-          <i class="fas fa-sign-out-alt">登出</i>
-        </div>
-      </div> -->
       <div class="isLogin navbar-end" v-else-if="$store.state.isLogin">
         <div class="navbar-item has-dropdown is-hoverable">
           <a class="navbar-link">更多</a>
@@ -123,7 +101,7 @@
           </div>
         </div>
         <div class="isLogin navbar-item">
-          <div @click="logout" v-if="$store.state.isLogin">
+          <div @click="logout()" v-if="$store.state.isLogin">
             <i class="el-icon-error myInfo"> 登出</i>
           </div>
         </div>
@@ -156,6 +134,9 @@ export default {
     goWatch() {
       this.$router.push("/moviehome");
     },
+    goActivity(){
+      this.$router.push("/activityhome");
+    },
     logout() {
       this.$message("账号成功登出！");
       this.$store.commit("logout");
@@ -168,8 +149,6 @@ export default {
         .then((res) => {
           const { data } = res;
           this.user = data;
-          // console.log("login+res=");
-          // console.log(res);
           if (data.code == 20000) {
             this.$message({
               message: "登陆成功！",

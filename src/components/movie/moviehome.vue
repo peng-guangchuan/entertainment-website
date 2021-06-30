@@ -1,5 +1,5 @@
 <template>
-    <div id="moviehome">
+  <div id="moviehome">
     <Top />
     <Allmovie />
     <Footer />
@@ -7,16 +7,15 @@
 </template>
 
 <script>
-import Top from "../forumHome/Top";
-import Footer from "../forumHome/Footer";
-import Allmovie from "./allMovie"
+import Top from "../webHome/Top";
+import Footer from "../webHome/Footer";
+import Allmovie from "./allMovie";
 
 export default {
   data() {
     return {};
   },
   methods: {},
-  computed: {},
   components: {
     Top,
     Allmovie,

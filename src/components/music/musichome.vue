@@ -1,5 +1,5 @@
 <template>
-    <div id="musichome">
+  <div id="musichome">
     <Top />
     <Allmusic />
     <Footer />
@@ -7,16 +7,15 @@
 </template>
 
 <script>
-import Top from "../forumHome/Top";
-import Footer from "../forumHome/Footer";
-import Allmusic from "./allMusic"
+import Top from "../webHome/Top";
+import Footer from "../webHome/Footer";
+import Allmusic from "./allMusic";
 
 export default {
   data() {
     return {};
   },
   methods: {},
-  computed: {},
   components: {
     Top,
     Allmusic,

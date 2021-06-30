@@ -19,7 +19,6 @@
               <li>1</li>
               <li>1</li>
             </div>
-            <!-- <hr /> -->
           </article>
         </div>
 
@@ -58,7 +57,6 @@
           <p class="title">高分推荐榜</p>
           <el-tabs
             v-model="activeName"
-            @tab-click="handleClick"
             :stretch="true"
           >
             <el-tab-pane label="书 籍" name="first">
@@ -206,7 +204,6 @@
               </el-row>
             </el-tab-pane>
           </el-tabs>
-          <!-- <hr /> -->
         </div>
       </article>
     </div>
@@ -223,55 +220,6 @@ export default {
     return {
       img: "http://192.168.3.5:8002/images/34aafdd4-6c2a-4f02-a47a-f72f19d7cb79.jpg",
       activeName: "first",
-      users: [
-        {
-          userId: 0,
-          userPassword: 0,
-          userName: "",
-          userEmail: "",
-          userSex: "",
-          userPhone: "",
-          userStatus: 0,
-          userTime: "",
-          userShow: "",
-          userBlog: "",
-          userImg: "",
-          userFans: 0,
-          userConcern: 0,
-        },
-      ],
-      info: [
-        {
-          article: {
-            artId: 0,
-            artUserId: 1,
-            artTitle: "",
-            artTypeId: 0,
-            artContent: "",
-            artCommentId: 0,
-            artCreTime: "",
-            artView: "",
-            artComNum: 0,
-            artHotNum: 0,
-            artLikeNum: 0,
-          },
-          user: {
-            userId: 0,
-            userPassword: 0,
-            userName: "",
-            userEmail: "",
-            userSex: "",
-            userPhone: "",
-            userStatus: 0,
-            userTime: "",
-            userShow: "",
-            userBlog: "",
-            userImg: "",
-            userFans: 0,
-            userConcern: 0,
-          },
-        },
-      ],
       ImgUrl: [
         require(`@/assets/校园风景/1.jpg`),
         require(`@/assets/校园风景/2.jpg`),
@@ -354,9 +302,6 @@ export default {
         },
       });
     },
-    handleClick(tab, event) {
-      console.log(tab, event);
-    },
     splitArr2_3(oldArr) {
       var res = [];
       var temp = [];
@@ -386,8 +331,6 @@ export default {
           this.$store.state.imgBaseUrl + this.topBooks[i].img;
       }
       this.books2_3 = this.splitArr2_3(this.topBooks);
-      // console.log("topbooks[]", this.topBooks);
-      // console.log("slplit", this.splitArr2_3(this.topBooks));
     });
     getTopMusic().then((res) => {
       this.topMusics = res.data.data;
@@ -396,8 +339,6 @@ export default {
           this.$store.state.imgBaseUrl + this.topMusics[i].img;
       }
       this.musicss2_3 = this.splitArr2_3(this.topMusics);
-      // console.log("topMusics[]", this.topMusics);
-      // console.log("slplit", this.splitArr2_3(this.topMusics));
     });
     getTopMovie().then((res) => {
       this.topMovies = res.data.data;
@@ -406,15 +347,11 @@ export default {
           this.$store.state.imgBaseUrl + this.topMovies[i].img;
       }
       this.Movies2_3 = this.splitArr2_3(this.topMovies);
-      console.log("movie2_3", this.Movies2_3);
-      // console.log("topMovies[]", this.topMovies);
-      // console.log("slplit", this.splitArr2_3(this.topMovies));
     });
   },
   components: {},
 };
 </script>
-
 
 <style scoped>
 .hero.is-medium .hero-body {
@@ -422,8 +359,9 @@ export default {
   padding-bottom: 3rem;
 }
 .fuck {
-  /* height: 300px; */
-
   overflow-y: auto;
+}
+.el-row{
+  background-color: rgb(251, 251, 251);
 }
 </style>

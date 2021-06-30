@@ -19,7 +19,7 @@
               </div>
             </el-image>
           </div>
-          <div class="detail_list_info" style="max-width:300px">
+          <div class="detail_list_info" style="max-width: 300px">
             <h2>《{{ oneMovieInfo.name }}》</h2>
             <p>导演：{{ oneMovieInfo.director }}</p>
             <p>演员：{{ oneMovieInfo.actor }}</p>
@@ -118,7 +118,7 @@
                       ><i class="fas fa-heart"></i> {{ i.likeNum }}</span
                     ></el-col
                   >
-                                   <el-col :span="1">
+                  <el-col :span="1">
                     <span v-if="!i.isCurrentUserPost" style="color: white"
                       >.</span
                     >
@@ -134,9 +134,8 @@
                       </span>
                     </el-popconfirm>
                   </el-col>
-                </el-row>
-              </el-card></el-col
-            >
+                </el-row> </el-card
+            ></el-col>
           </el-row>
         </div>
         <div v-else>
@@ -156,8 +155,8 @@
 
 <script>
 import Header from "../book/header";
-import Top from "../forumHome/Top";
-import Footer from "../forumHome/Footer";
+import Top from "../webHome/Top";
+import Footer from "../webHome/Footer";
 import { getOneMovie } from "@/api";
 import { getComment } from "@/api";
 import { getGrade } from "@/api";
@@ -266,7 +265,6 @@ export default {
               position: "bottom-right",
             });
           }
-          // console.log("postGRADE=", res);
         });
       }
     },
@@ -274,8 +272,6 @@ export default {
       getGrade(2, this.oneMovieInfo.id).then((res) => {
         this.markValue = res.data.data.score;
         this.markNum = res.data.data.num;
-        //   console.log("grade");
-        //   console.log(res);
       });
     },
     postcomm() {
@@ -301,7 +297,6 @@ export default {
           getComment(2, this.oneMovieInfo.id, 1, 20, token).then((res) => {
             // 第四个参数写死了，没做分页
             this.allComment = res.data.data.records;
-            //   console.log(this.allComment);
           });
           this.$notify({
             title: "评论发布成功！",
@@ -310,7 +305,6 @@ export default {
             position: "bottom-right",
           });
         }
-        // console.log("postCommentRes", res);
       });
     },
     dianzan(commentId) {
@@ -326,7 +320,6 @@ export default {
           // 获取评论的第三、四个参数写死了，没做分页
           getComment(2, this.oneMovieInfo.id, 1, 20, token).then((res) => {
             this.allComment = res.data.data.records;
-            //   console.log(this.allComment);
           });
         } else if (res.data.code == 21006) {
           this.$notify.info({
@@ -335,37 +328,29 @@ export default {
             position: "bottom-right",
           });
         }
-        // console.log("dianzan");
-        // console.log(res.data);
       });
     },
   },
   mounted() {
     let movieid = this.$route.query.id;
     getOneMovie(movieid).then((res) => {
-      //   console.log(res);
       this.oneMovieInfo = res.data.data;
       this.oneMovieInfo.img =
         this.$store.state.imgBaseUrl + this.oneMovieInfo.img;
-      // console.log(this.oneMovieInfo);
     });
     let token = this.$store.state.user.token;
     getComment(2, movieid, 1, 20, token).then((res) => {
       this.allComment = res.data.data.records;
-      // console.log(this.allComment);
     });
     getGrade(2, movieid).then((res) => {
       this.markValue = res.data.data.score;
       this.markNum = res.data.data.num;
-      //   console.log("grade");
-      //   console.log(res);
     });
     getUserGrade(token, 2, movieid).then((res) => {
       if (res.data.code == 20000) {
         this.toMarkValue = res.data.data;
         this.rateSwatch = true;
       }
-      // console.log(res);
     });
   },
 };

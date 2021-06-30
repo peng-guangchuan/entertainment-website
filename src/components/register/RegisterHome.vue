@@ -16,28 +16,16 @@
         <ThirdStep />
       </el-col>
     </el-row>
-
     <el-button style="margin-top: 12px" @click="last">上一步</el-button>
     <el-button style="margin-top: 12px" @click="next">下一步</el-button>
-    <!-- <b-steps type="is-info">
-      <b-step-item label="第一步" icon="account-key">
-        <FirstStep />
-      </b-step-item>
-      <b-step-item label="第二步" icon="account">
-        <SecendStep />
-      </b-step-item>
-      <b-step-item label="第三步" icon="account-plus">
-        <ThirdStep />
-      </b-step-item>
-    </b-steps> -->
   </div>
 </template>
-
 
 <script>
 import FirstStep from "../register/FirstStep";
 import SecendStep from "../register/SecendStep";
 import ThirdStep from "../register/ThirdStep";
+
 export default {
   components: {
     FirstStep,
@@ -71,7 +59,6 @@ export default {
   },
 };
 </script>
-
 
 <style scoped>
 </style>

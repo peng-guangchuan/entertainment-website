@@ -88,9 +88,7 @@ export default {
 
 <style scoped>
 .secend {
-  /* margin: auto; */
   height: 400px;
-  /* text-align: center; */
   margin-top: 3rem;
 }
 </style>

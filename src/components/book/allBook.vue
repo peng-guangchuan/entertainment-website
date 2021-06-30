@@ -135,7 +135,7 @@ export default {
             temp[temp.length] = this.bookInfos[i];
           } else {
             temp[temp.length] = this.bookInfos[i];
-            // temparr[temparr.length] = temp;
+            // temparr[temparr.length] = temp; 错误，无法刷新数据
             this.books.push(temp);
             temp = [];
           }
@@ -200,16 +200,4 @@ export default {
   margin-top: 1rem;
   margin-bottom: 2rem;
 }
-/* .drw-asi {
-  width: 235px;
-  margin-left: 1rem;
-}
-.drw-m {
-  text-align: left;
-  padding: 0px;
-  padding-left: 1rem;
-}
-.textTag {
-  color: gray;
-} */
 </style>

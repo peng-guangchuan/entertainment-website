@@ -153,8 +153,8 @@
 
 <script>
 import Header from "../book/header";
-import Top from "../forumHome/Top";
-import Footer from "../forumHome/Footer";
+import Top from "../webHome/Top";
+import Footer from "../webHome/Footer";
 import { getOneMusic } from "@/api";
 import { getComment } from "@/api";
 import { getGrade } from "@/api";
@@ -261,7 +261,6 @@ export default {
               position: "bottom-right",
             });
           }
-          // console.log("postGRADE=", res);
         });
       }
     },
@@ -269,8 +268,6 @@ export default {
       getGrade(3, this.oneMusicInfo.id).then((res) => {
         this.markValue = res.data.data.score;
         this.markNum = res.data.data.num;
-        //   console.log("grade");
-        //   console.log(res);
       });
     },
     postcomm() {
@@ -296,7 +293,6 @@ export default {
           // 获取评论的第三、四个参数写死了，没做分页
           getComment(3, this.oneMusicInfo.id, 1, 20, token).then((res) => {
             this.allComment = res.data.data.records;
-            //   console.log(this.allComment);
           });
           this.$notify({
             title: "评论发布成功！",
@@ -305,7 +301,6 @@ export default {
             position: "bottom-right",
           });
         }
-        // console.log("postCommentRes", res);
       });
     },
     dianzan(commentId) {
@@ -320,7 +315,6 @@ export default {
           let token = this.$store.state.user.token;
           getComment(3, this.oneMusicInfo.id, 1, 20, token).then((res) => {
             this.allComment = res.data.data.records;
-            //   console.log(this.allComment);
           });
         } else if (res.data.code == 21006) {
           this.$notify.info({
@@ -329,37 +323,29 @@ export default {
             position: "bottom-right",
           });
         }
-        // console.log("dianzan");
-        // console.log(res.data);
       });
     },
   },
   mounted() {
     let musicid = this.$route.query.id;
     getOneMusic(musicid).then((res) => {
-      //   console.log(res);
       this.oneMusicInfo = res.data.data;
       this.oneMusicInfo.img =
         this.$store.state.imgBaseUrl + this.oneMusicInfo.img;
-      //   console.log(this.oneMusicInfo);
     });
     let token = this.$store.state.user.token;
     getComment(3, musicid, 1, 20, token).then((res) => {
       this.allComment = res.data.data.records;
-      //   console.log(this.allComment);
     });
     getGrade(3, musicid).then((res) => {
       this.markValue = res.data.data.score;
       this.markNum = res.data.data.num;
-      //   console.log("grade");
-      //   console.log(res);
     });
     getUserGrade(token, 3, musicid).then((res) => {
       if (res.data.code == 20000) {
         this.toMarkValue = res.data.data;
         this.rateSwatch = true;
       }
-      //   console.log(res);
     });
   },
 };

@@ -79,13 +79,7 @@ export default {
 
 <style scoped>
 .first {
-  /* text-align: center; */
-  /* width: 500px; */
   height: 400px;
-  /* margin: 0 auto; */
   margin-top: 3rem;
 }
-/* .resigerInput{
-  width: 70%;
-} */
 </style>

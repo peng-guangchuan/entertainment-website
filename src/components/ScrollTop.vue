@@ -1,22 +1,20 @@
 <template>
-  <!-- <img
-      class="back_to_top"
-      v-show="showTop"
-      src="../assets/5.jpg"
-      @click="scrollToY(0, 1500, 'easeInOutQuint')"
-  />-->
-  <div class="back_to_top" v-show="showTop" @click="scrollToY(0, 1500, 'easeInOutQuint')">
+  <div
+    class="back_to_top"
+    v-show="showTop"
+    @click="scrollToY(0, 1500, 'easeInOutQuint')"
+  >
     <i class="far fa-arrow-alt-circle-up"></i>
   </div>
 </template>
 
 <script>
-window.requestAnimFrame = (function() {
+window.requestAnimFrame = (function () {
   return (
     window.requestAnimationFrame ||
     window.webkitRequestAnimationFrame ||
     window.mozRequestAnimationFrame ||
-    function(callback) {
+    function (callback) {
       window.setTimeout(callback, 1000 / 60);
     }
   );
@@ -26,7 +24,7 @@ export default {
   name: "BackToTop",
   data() {
     return {
-      scrollTop: 0
+      scrollTop: 0,
     };
   },
   methods: {
@@ -34,7 +32,6 @@ export default {
       // scrollTargetY: the target scrollY property of the window
       // speed: time in pixels per second
       // easing: easing equation to use
-
       let scrollY = window.scrollY || document.documentElement.scrollTop;
       scrollTargetY = scrollTargetY || 0;
       speed = speed || 2000;
@@ -45,30 +42,26 @@ export default {
         0.1,
         Math.min(Math.abs(scrollY - scrollTargetY) / speed, 0.8)
       );
-
       // easing equations from https://github.com/danro/easing-js/blob/master/easing.js
       let easingEquations = {
-        easeOutSine: function(pos) {
+        easeOutSine: function (pos) {
           return Math.sin(pos * (Math.PI / 2));
         },
-        easeInOutSine: function(pos) {
+        easeInOutSine: function (pos) {
           return -0.5 * (Math.cos(Math.PI * pos) - 1);
         },
-        easeInOutQuint: function(pos) {
+        easeInOutQuint: function (pos) {
           if ((pos /= 0.5) < 1) {
             return 0.5 * Math.pow(pos, 5);
           }
           return 0.5 * (Math.pow(pos - 2, 5) + 2);
-        }
+        },
       };
-
       // add animation loop
       function tick() {
         currentTime += 1 / 60;
-
         let p = currentTime / time;
         let t = easingEquations[easing](p);
-
         if (p < 1) {
           window.requestAnimFrame(tick);
           window.scrollTo(0, scrollY + (scrollTargetY - scrollY) * t);
@@ -76,7 +69,6 @@ export default {
           window.scrollTo(0, scrollTargetY);
         }
       }
-
       // call it once to get started
       tick();
     },
@@ -85,16 +77,16 @@ export default {
         window.pageYOffset ||
         document.documentElement.scrollTop ||
         document.body.scrollTop;
-    }
+    },
   },
   computed: {
-    showTop: function() {
+    showTop: function () {
       return this.scrollTop > 50;
-    }
+    },
   },
   mounted() {
     window.addEventListener("scroll", this.getScrollTop);
-  }
+  },
 };
 </script>
 

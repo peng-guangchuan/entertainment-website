@@ -1,7 +1,7 @@
 <template>
-    <div id="bookhome">
+  <div id="activityhome">
     <Top />
-    <AllBook />
+    <AllActivity />
     <Footer />
   </div>
 </template>
@@ -9,17 +9,16 @@
 <script>
 import Top from "../webHome/Top";
 import Footer from "../webHome/Footer";
-import AllBook from "./allBook"
+import AllActivity from "./AllActivity";
 
 export default {
   data() {
     return {};
   },
   methods: {},
-  computed: {},
   components: {
     Top,
-    AllBook,
+    AllActivity,
     Footer,
   },
 };

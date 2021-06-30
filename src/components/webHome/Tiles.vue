@@ -34,9 +34,9 @@
       <article class="tile is-child box">
         <p class="subtitle">新音速听</p>
         <hr />
-        <el-carousel :interval="3000" type="card" height="530px">
+        <el-carousel :interval="3000" type="card" height="430px" style="margin:50px 0 50px 0">
           <el-carousel-item v-for="(o, index) in musicsInfo" :key="index">
-            <div style="margin: 4rem 1rem 0rem 1rem">
+            <div style="margin: 1rem 1rem 0rem 1rem">
               <el-card :body-style="{ padding: '0px' }" shadow="hover">
                 <el-image style="width: 254px; height: 254px" :src="o.img">
                   <div slot="placeholder" class="image-slot">
@@ -97,7 +97,6 @@
 import { getNewBook } from "@/api";
 import { getNewMovie } from "@/api";
 import { getNewMusic } from "@/api";
-// import Pageination from "../forumHome/Pageination.vue";
 
 export default {
   data() {
@@ -187,7 +186,6 @@ export default {
         this.booksInfo[i].img =
           this.$store.state.imgBaseUrl + this.booksInfo[i].img;
       }
-      // console.log("newbook", this.booksInfo);
     });
     getNewMovie().then((res) => {
       this.moviesInfo = res.data.data;
@@ -195,7 +193,6 @@ export default {
         this.moviesInfo[i].img =
           this.$store.state.imgBaseUrl + this.moviesInfo[i].img;
       }
-      // console.log("newmOvie", this.moviesInfo);
     });
     getNewMusic().then((res) => {
       this.musicsInfo = res.data.data;
@@ -203,7 +200,6 @@ export default {
         this.musicsInfo[i].img =
           this.$store.state.imgBaseUrl + this.musicsInfo[i].img;
       }
-      // console.log("newmusic", this.musicsInfo);
     });
   },
 };
@@ -228,11 +224,9 @@ export default {
   line-height: 400px;
   margin: 0;
 }
-
 .el-carousel__item:nth-child(2n) {
   background-color: #99a9bf;
 }
-
 .el-carousel__item:nth-child(2n + 1) {
   background-color: #d3dce6;
 }

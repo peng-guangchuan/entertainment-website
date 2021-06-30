@@ -1,5 +1,5 @@
 <template>
   <div>
-    <img src="../assets/404.png" />
+    <img :src="require(`@/assets/404.png`)" />
   </div>
 </template>

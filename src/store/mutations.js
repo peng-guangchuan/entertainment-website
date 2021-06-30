@@ -45,8 +45,4 @@ export default {
     // ccc(){
     //   this.store.commit('login1',true)
     // }
-
-
-
-    //方法
 }//包含多个更新state函数得对象

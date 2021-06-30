@@ -6,27 +6,13 @@
         <h2 class="subtitle is-italic">
           <nav class="breadcrumb has-bullet-separator" aria-label="breadcrumbs">
             <ul>
-              <li>
-                <a href="#">好玩</a>
-              </li>
-              <li>
-                <a href="#">放松</a>
-              </li>
-              <li>
-                <a href="#">知识</a>
-              </li>
-              <li>
-                <a href="#">读书</a>
-              </li>
-              <li>
-                <a href="#">音乐</a>
-              </li>
-              <li>
-                <a href="#">电影</a>
-              </li>
-                            <li>
-                <a href="#">活动</a>
-              </li>
+              <li><a href="#">好玩</a></li>
+              <li><a href="#">放松</a></li>
+              <li><a href="#">知识</a></li>
+              <li><a href="#">读书</a></li>
+              <li><a href="#">音乐</a></li>
+              <li><a href="#">电影</a></li>
+              <li><a href="#">活动</a></li>
             </ul>
           </nav>
         </h2>
