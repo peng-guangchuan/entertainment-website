@@ -28,7 +28,7 @@
           </div>
           <div class="detailIntro">
             <p>内容简介...</p>
-            <p style="text-indent: 2em">{{ oneMovieInfo.description }}</p>
+            <p style="text-indent: 2em" v-html="oneMovieInfo.description"></p>
           </div>
           <div class="detailMark">
             <div>
@@ -396,7 +396,7 @@ export default {
   margin-bottom: 0;
 }
 #content .detail_list {
-  height: 200px;
+  height: 220px;
   width: 100%;
   position: relative;
   overflow: hidden;
@@ -442,6 +442,7 @@ export default {
 }
 .detail_list_info {
   text-align: left;
+  overflow: auto;
 }
 .detail_list .detail_list_info {
   margin-top: 20px;

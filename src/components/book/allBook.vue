@@ -44,7 +44,7 @@
       >
         <el-card :body-style="{ padding: '0px' }" shadow="hover">
           <el-image
-            style="width: 235px; height: 260px"
+            style="width: 235px; height: 300px"
             :src="o.img"
             :preview-src-list="[o.img]"
           >
@@ -146,19 +146,12 @@ export default {
       });
     },
     findOneBookInfo(bookid) {
-      // this.drawer = true;
-      // getOneBook(bookid).then((res) => {
-      //   console.log(res);
-      //   this.oneBookInfo = res.data.data;
-      //   console.log(this.oneBookInfo);
       this.$router.push({
         path: "/bookdetail",
         query: {
           id: bookid,
         },
       });
-      // this.$router.push("/bookdetail");
-      // });
     },
     getAllBookApi(page) {
       getAllBook(page).then((res) => {

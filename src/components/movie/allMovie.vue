@@ -44,7 +44,7 @@
       >
         <el-card :body-style="{ padding: '0px' }" shadow="hover">
           <el-image
-            style="width: 235px; height: 260px"
+            style="width: 235px; height: 300px"
             :src="o.img"
             :preview-src-list="[o.img]"
           >

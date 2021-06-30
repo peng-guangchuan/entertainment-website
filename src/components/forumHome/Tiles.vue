@@ -205,24 +205,7 @@ export default {
       }
       // console.log("newmusic", this.musicsInfo);
     });
-    //   getHotArticleType()
-    //     .then((res) => {
-    //       const { data } = res;
-    //       this.contents = data.content;
-    //     })
-    //     .catch(() => {});
-    //   this.$store.dispatch("getpagemain");
-    //   //bug，应该用action异步处理，再提交commit状态，明日更新（已解决）
-    //   // getPageMain()
-    //   //   .then(res => {
-    //   //     const { data } = res;
-    //   //     this.info = data.content;
-    //   //   })
-    //   //   .catch(() => {});
   },
-  // components: {
-  //   Pageination,
-  // },
 };
 </script>
 

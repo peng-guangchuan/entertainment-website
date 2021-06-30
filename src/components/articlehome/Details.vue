@@ -27,7 +27,7 @@
                     <td width="48" valign="top">
                       <a href="#">
                         <img
-                          :src="require(`@/assets/${$store.state.user.userImg}`)"
+                          :src="require(`@/assets/default.jpg`)"
                           class="avatar"
                           border="0"
                           align="default"
@@ -130,7 +130,7 @@
           <div class="box" style="border-bottom:0px;">
             <div class="header">
               <div class="fr">
-                <img :src="require(`../../assets/${info.user.userImg}`)" class="size" />
+                <img :src="require(`../../assets/default.jpg`)" class="size" />
               </div>
               <div class="sep10"></div>
               <h1>{{info.article.artTitle}}</h1>
@@ -147,7 +147,7 @@
                 <tbody>
                   <tr>
                     <td width="48" valign="top" align="center">
-                      <img :src="require(`@/assets/${c.user.userImg}`)" />
+                      <img :src="require(`@/assets/default.jpg`)" />
                     </td>
                     <td width="10" valign="top"></td>
                     <td width="auto" valign="top" align="left">

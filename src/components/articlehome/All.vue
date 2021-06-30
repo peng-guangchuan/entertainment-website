@@ -17,7 +17,7 @@
             <article class="media">
               <figure class="media-left">
                 <p class="image is-64x64">
-                  <img :src="require(`../../assets/${content.user.userImg}`)" class="size" />
+                  <img :src="require(`../../assets/default.jpg`)" class="size" />
                 </p>
               </figure>
               <div class="media-content">

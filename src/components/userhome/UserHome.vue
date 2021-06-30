@@ -61,7 +61,7 @@
                   <tr>
                     <td width="73" valign="top" align="center">
                       <img
-                        :src="require(`@/assets/${$store.state.user.userImg}`)"
+                        :src="require(`@/assets/default.jpg`)"
                         class="avatar"
                         border="0"
                         align="default"

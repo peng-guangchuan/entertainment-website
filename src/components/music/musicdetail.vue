@@ -9,9 +9,8 @@
         <div class="detail_list_bg"></div>
         <div class="detail_list_filter"></div>
         <div class="detail_list_content">
-          <div class="detail_list_img" style="height:110px">
+          <div class="detail_list_img" style="height: 110px">
             <el-image
-            
               :src="oneMusicInfo.img"
               :preview-src-list="[oneMusicInfo.img]"
             >
@@ -20,14 +19,14 @@
               </div>
             </el-image>
           </div>
-          <div class="detail_list_info" style="max-width:300px">
+          <div class="detail_list_info" style="max-width: 300px">
             <h2>《{{ oneMusicInfo.name }}》</h2>
             <p>歌手：{{ oneMusicInfo.singer }}</p>
             <p>专辑：{{ oneMusicInfo.album }}</p>
           </div>
-          <div class="detailIntro" >
+          <div class="detailIntro">
             <p>歌曲歌词...</p>
-            <p style="text-indent: 2em">{{ oneMusicInfo.lyric }}</p>
+            <p style="text-indent: 2em" v-html="oneMusicInfo.lyric"></p>
           </div>
           <div class="detailMark">
             <div>
@@ -117,7 +116,7 @@
                       ><i class="fas fa-heart"></i> {{ i.likeNum }}</span
                     ></el-col
                   >
-                                   <el-col :span="1">
+                  <el-col :span="1">
                     <span v-if="!i.isCurrentUserPost" style="color: white"
                       >.</span
                     >
@@ -133,9 +132,8 @@
                       </span>
                     </el-popconfirm>
                   </el-col>
-                </el-row>
-              </el-card></el-col
-            >
+                </el-row> </el-card
+            ></el-col>
           </el-row>
         </div>
         <div v-else>
@@ -392,7 +390,7 @@ export default {
   margin-bottom: 0;
 }
 #content .detail_list {
-  height: 200px;
+  height: 220px;
   width: 100%;
   position: relative;
   overflow: hidden;
@@ -438,6 +436,7 @@ export default {
 }
 .detail_list_info {
   text-align: left;
+  overflow: auto;
 }
 .detail_list .detail_list_info {
   margin-top: 20px;
@@ -464,7 +463,6 @@ export default {
   margin-left: 1rem;
   text-align: left;
   width: 1200px;
-  height: 180px;
   overflow: auto;
 }
 .detailMark {

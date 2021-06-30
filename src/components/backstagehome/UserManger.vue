@@ -6,7 +6,7 @@
         <p class="subtitle">邮箱：{{item.userEmail}}</p>
         <p class="subtitle">
           头像：
-          <img :src="require(`@/assets/${item.userImg}`)" class="size" />
+          <img :src="require(`@/assets/default.jpg`)" class="size" />
         </p>
         <p class="subtitle">电话：{{item.userPhone}}</p>
       </article>

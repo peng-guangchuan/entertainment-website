@@ -3,7 +3,7 @@ import Qs from "qs";
 import { SnackbarProgrammatic as Snackbar } from 'buefy';
 
 //全局默认配置
-axios.defaults.baseURL = "http://192.168.3.5:8002";
+axios.defaults.baseURL = "http://192.168.3.5:8003";
 // axios.interceptors.request.use(
 //     config => {
 //         console.log(config);
@@ -146,6 +146,20 @@ export const getUserGrade = (token, entityType, entityId) => {
 export const deleteComment = (commentId, token) => {
     return axios.delete("/stu/comment", { params: { "commentId": commentId }, headers: { token: token } });
 }
+
+// 获取高分书籍接口
+export const getTopBook = () => {
+    return axios.get("/common/top/book");
+}
+// 获取高分音乐接口
+export const getTopMusic = () => {
+    return axios.get("/common/top/music");
+}
+// 获取高分电影接口
+export const getTopMovie = () => {
+    return axios.get("/common/top/movie");
+}
+
 
 export const getAllArticle = (page) => {
     return axios.post("/pagearticle", Qs.stringify({ page }));
