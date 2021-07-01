@@ -18,6 +18,7 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     imgBaseUrl: "http://192.168.3.5:8003",
+    adminIsLogin: window.localStorage.getItem('adminisLogin' || '[]') == null ? '' : true,
     isLogin: window.localStorage.getItem('isLogin' || '[]') == null ? '' : true,
     user: {
       userName: window.localStorage.getItem('user' || '[]') == null ? '' : JSON.parse(window.localStorage.getItem('user' || '[]')).userName,

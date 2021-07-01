@@ -2,6 +2,10 @@ import { getPageMain } from "@/api"
 
 export default {
     //context:上下文，actions中的默认参数，理解成store对象
+    adminLogin(context) {
+        context.commit('adminlogin')
+    },
+
     aLogin(context, payload) {
         setTimeout(() => {
             context.commit('login', payload.user.data)

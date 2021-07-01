@@ -295,6 +295,7 @@ export default {
           // 获取评论的第三、四个参数写死了，没做分页
           getComment(1, this.oneBookInfo.id, 1, 20, token).then((res) => {
             this.allComment = res.data.data.records;
+            console.log("getcomment",res);
           });
           this.$notify({
             title: "评论发布成功！",
@@ -317,6 +318,7 @@ export default {
           let token = this.$store.state.user.token;
           getComment(1, this.oneBookInfo.id, 1, 20, token).then((res) => {
             this.allComment = res.data.data.records;
+            console.log("getcomment",res);
           });
         } else if (res.data.code == 21006) {
           this.$notify.info({
@@ -338,6 +340,7 @@ export default {
     let token = this.$store.state.user.token;
     getComment(1, bookid, 1, 20, token).then((res) => {
       this.allComment = res.data.data.records;
+      console.log("getcomment",res);
     });
     getGrade(1, bookid).then((res) => {
       this.markValue = res.data.data.score;

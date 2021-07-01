@@ -1,6 +1,9 @@
 <template>
   <div>
     <div style="margin: 1rem" class="level-center">
+      <h1 class="title">电影</h1>
+    </div>
+    <div style="margin: 1rem" class="level-center">
       <div class="level-item">
         <p class="subtitle is-5"></p>
       </div>

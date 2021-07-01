@@ -8,16 +8,29 @@
         <div class="tile is-parent is-vertical">
           <article class="tile is-child box">
             <div class="fuck">
-              <p class="title">校园最新活动</p>
+              <p class="title">热门随笔</p>
               <hr />
-              <li>1</li>
-              <li>1</li>
-              <li>1</li>
-              <li>1</li>
-              <li>1</li>
-              <li>1</li>
-              <li>1</li>
-              <li>1</li>
+              <el-row
+                style="margin: 1rem 0 1rem 0"
+                v-for="(i, index) in topEssays"
+                :key="index"
+              >
+                <el-col :offset="3" :span="18">
+                  <el-card shadow="always">
+                    <el-row>
+                      <el-col :span="21"
+                        >@{{ i.name }}:
+                        <span style="cursor: pointer">《{{ i.title }}》</span>
+                      </el-col>
+                      <el-col :span="3">
+                        <span
+                          ><i class="fas fa-heart"></i> {{ i.likeNum }}</span
+                        ></el-col
+                      >
+                    </el-row>
+                  </el-card>
+                </el-col>
+              </el-row>
             </div>
           </article>
         </div>
@@ -55,10 +68,7 @@
       <article class="tile is-child box">
         <div class="content">
           <p class="title">高分推荐榜</p>
-          <el-tabs
-            v-model="activeName"
-            :stretch="true"
-          >
+          <el-tabs v-model="activeName" :stretch="true">
             <el-tab-pane label="书 籍" name="first">
               <span slot="label">
                 <img :src="require(`@/assets/书.png`)" /> 书&nbsp;籍</span
@@ -214,11 +224,43 @@
 import { getTopBook } from "@/api";
 import { getTopMusic } from "@/api";
 import { getTopMovie } from "@/api";
+import { getTopEssay } from "@/api";
 
 export default {
   data() {
     return {
-      img: "http://192.168.3.5:8002/images/34aafdd4-6c2a-4f02-a47a-f72f19d7cb79.jpg",
+      topEssays: [
+        {
+          name: "张三",
+          likeNum: 15,
+          title: "英语角的收获",
+        },
+        {
+          name: "李四",
+          likeNum: 14,
+          title: "志愿服务令我成长",
+        },
+        {
+          name: "王五",
+          likeNum: 11,
+          title: "篮球赛绽放活力",
+        },
+        {
+          name: "刘六",
+          likeNum: 8,
+          title: "我的K赛之旅",
+        },
+        {
+          name: "彭七",
+          likeNum: 7,
+          title: "趣味数学—体验数学之美",
+        },
+        {
+          name: "叶八",
+          likeNum: 3,
+          title: "电子竞技的魅力",
+        },
+      ],
       activeName: "first",
       ImgUrl: [
         require(`@/assets/校园风景/1.jpg`),
@@ -275,6 +317,7 @@ export default {
           showtime: "",
         },
       ],
+      topEssay: [{}],
     };
   },
   methods: {
@@ -348,6 +391,11 @@ export default {
       }
       this.Movies2_3 = this.splitArr2_3(this.topMovies);
     });
+    getTopEssay().then((res) => {
+      this.topEssay = res.data.data;
+      console.log(res);
+    });
+    console.log(this.$store.state.user.token);
   },
   components: {},
 };
@@ -361,7 +409,7 @@ export default {
 .fuck {
   overflow-y: auto;
 }
-.el-row{
+.el-row {
   background-color: rgb(251, 251, 251);
 }
 </style>

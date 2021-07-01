@@ -29,7 +29,14 @@
       <div class="navbar-end" v-if="!$store.state.isLogin">
         <div class="navbar-item">
           <div class="buttons">
-            <b-button type="is-info" outlined @click="register()">注册</b-button>
+            <a class="navbar-item" slot="trigger" role="button">
+              <b-button type="is-info" @click="goAdmin()" outlined
+                >管理员登陆</b-button
+              >
+            </a>
+            <b-button type="is-info" outlined @click="register()"
+              >注册</b-button
+            >
             <div class="navbar-menu">
               <div class="navbar-end">
                 <b-dropdown
@@ -125,6 +132,9 @@ export default {
     goHome() {
       this.$router.push("/");
     },
+    goAdmin() {
+      this.$router.push("/adminLogin");
+    },
     goRead() {
       this.$router.push("/bookhome");
     },
@@ -134,7 +144,7 @@ export default {
     goWatch() {
       this.$router.push("/moviehome");
     },
-    goActivity(){
+    goActivity() {
       this.$router.push("/activityhome");
     },
     logout() {

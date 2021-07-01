@@ -6,10 +6,7 @@
           <table cellpadding="0" cellspacing="0" border="0" width="100%">
             <tbody>
               <tr>
-                <td width="570" align="left" style="padding-top: 2px">
-                  <a href="/adminlogin" class="top">首页</a>
-                  &nbsp;&nbsp;&nbsp;
-                </td>
+                <td width="570" align="left" style="padding-top: 2px"></td>
               </tr>
             </tbody>
           </table>
@@ -24,7 +21,7 @@
           <div class="sep20"></div>
           <div class="box">
             <div class="header">
-              <a href="#">宠物论坛</a>
+              <a href="http://localhost:8080/">校园课外娱乐网</a>
               <span class="chevron">&nbsp;›&nbsp;</span> 管理员登录 &nbsp;
               <li class="fa fa-lock"></li>
             </div>
@@ -94,7 +91,6 @@
           </div>
         </div>
       </div>
-      <div class="c"></div>
       <div class="sep20"></div>
     </div>
     <div id="Bottom">
@@ -114,7 +110,6 @@
             <span class="snow">·</span> &nbsp;
             <a href="#" class="dark" target="_self">FAQ</a> &nbsp;
             <span class="snow">·</span> &nbsp;
-            <a href="#" class="dark" target="_self">API</a> &nbsp;
             <span class="snow">·</span> &nbsp;
             <a href="#" class="dark" target="_self">我们的愿景</a> &nbsp;
             <span class="snow">·</span> &nbsp;
@@ -125,28 +120,17 @@
             <a href="#" class="dark" target="_self">实用小工具</a>
             &nbsp;
           </strong>
-          &nbsp;
-          <span class="snow">·</span>
-          &nbsp;
-          <div class="sep20"></div>
-          创意工作者们的社区
-          <div class="sep5"></div>
-          World is powered by solitude
-          <div class="sep20"></div>
-          <span class="small fade">
-            VERSION: 3.9.8.3 · 4ms · UTC 01:44 · PVG 09:44 · LAX 17:44 · JFK
-            20:44
-            <br />♥ Do have faith in what you're doing.
-          </span>
           <div class="sep10"></div>
         </div>
       </div>
     </div>
+    <Footer />
   </div>
 </template>
 
 <script>
-import { adminlogin } from "@/api";
+import { userLogin } from "@/api";
+import Footer from "../webHome/Footer";
 export default {
   data() {
     return {
@@ -156,31 +140,25 @@ export default {
   },
   methods: {
     loginadmin() {
-      adminlogin(this.email, this.password)
-        .then((res) => {
-          if (res.data != "") {
-            this.setCookie("adminId", res.data.adminId, 1);
-            this.setCookie("adminLoginName", res.data.adminLoginName);
-            this.$message({
-              message: "尊敬的" + res.data.adminLoginName + "管理员，欢迎您",
-              type: "success",
-            });
-            this.$router.push("/adminhome");
-          } else {
-            this.$message.error("登陆失败：账号或密码错误");
-          }
-        })
-        .catch(() => {});
+      userLogin(this.email, this.password).then((res) => {
+        if (res.data.data.type == 0) {
+          console.log("adminlogin", res);
+          this.$store.dispatch("adminLogin");
+          this.$message({
+            message: "尊敬的管理员，欢迎您！",
+            type: "success",
+          });
+          this.$router.push("/adminhome");
+        } else if (res.data.data.type == 1) {
+          this.$message.error("登陆失败：该账号无管理员权限");
+        } else {
+          this.$message.error("登陆失败：账号或密码错误");
+        }
+      });
     },
-    //设置cookie
-    setCookie: function (cname, cvalue, exdays) {
-      var d = new Date();
-      d.setTime(d.getTime() + exdays * 24 * 60 * 60 * 1000);
-      var expires = "expires=" + d.toUTCString();
-      console.info(cname + "=" + cvalue + "; " + expires);
-      document.cookie = cname + "=" + cvalue + "; " + expires;
-      console.info(document.cookie);
-    },
+  },
+  components: {
+    Footer,
   },
 };
 </script>
@@ -191,7 +169,6 @@ export default {
   border-collapse: separate;
   border-color: grey;
 }
-
 .tbody {
   display: table-row-group;
   vertical-align: middle;

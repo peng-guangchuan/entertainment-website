@@ -19,15 +19,17 @@ const routes = [
   { path: "/activitydetail", name: "activitydetail", component: () => import("../components/activityhome/ActivityDetail.vue") },
   { path: "/adminLogin", name: "adminLogin", component: () => import("../components/admin/adminLogin.vue") },
   {
-    path: "/backstagehome", component: () => import("../components/backstagehome/BackStageHome.vue"),
-    children: [{ path: "/usermanger", name: "usermanger", component: () => import("../components/backstagehome/UserManger.vue") },
-    { path: "/articlemanger", name: "articlemanger", component: () => import("../components/backstagehome/ArticleManger.vue") },
-    { path: "/typemanger", name: "typemanger", component: () => import("../components/backstagehome/TypeManger.vue") }]
+    path: "/adminHome", name: "adminHome", component: () => import("../components/admin/BackStageHome.vue"),
+    children: [
+      { path: "/bookmanger", name: "bookmanger", component: () => import("../components/admin/bookmanger.vue") },
+      { path: "/musicmanger", name: "musicmanger", component: () => import("../components/admin/musicmanger.vue") },
+      { path: "/moviemanger", name: "moviemanger", component: () => import("../components/admin/moviemanger.vue") },
+      { path: "/activitymanger", name: "activitymanger", component: () => import("../components/admin/activitymanger.vue") },
+      { path: "/usermanger", name: "usermanger", component: () => import("../components/admin/usermanger.vue") },
+    ]
   },
   { path: "/userhome", meta: { requireAuth: true }, component: () => import("../components/userhome/UserHome") },
-  { path: "/allarticlehome", component: () => import("../components/articlehome/allarticlehome") },
-  { path: "/details", name: "Details", component: () => import("../components/articlehome/Details") },
-  { path: "/postarticle", name: "PostArticle", component: () => import("../components/articlehome/PostArticle") },];
+];
 
 const router = new VueRouter({
   mode: "history",

@@ -34,7 +34,12 @@
       <article class="tile is-child box">
         <p class="subtitle">新音速听</p>
         <hr />
-        <el-carousel :interval="3000" type="card" height="430px" style="margin:50px 0 50px 0">
+        <el-carousel
+          :interval="3000"
+          type="card"
+          height="430px"
+          style="margin: 50px 0 50px 0"
+        >
           <el-carousel-item v-for="(o, index) in musicsInfo" :key="index">
             <div style="margin: 1rem 1rem 0rem 1rem">
               <el-card :body-style="{ padding: '0px' }" shadow="hover">

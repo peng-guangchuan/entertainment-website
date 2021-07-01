@@ -164,6 +164,10 @@ export const getTopMusic = () => {
 export const getTopMovie = () => {
     return axios.get("/common/top/movie");
 }
+// 获取热门随笔接口
+export const getTopEssay = () => {
+    return axios.get("/common/top/essay");
+}
 
 // 获取活动信息接口
 export const getAllActivity = (content, status, sequence, page, size) => {
@@ -180,14 +184,16 @@ export const getOneActivityImg = (id) => {
 
 // 报名活动接口
 export const joinActivity = (token, stu_id, activity_id) => {
-    return axios.post("/stu/join", Qs.stringify({ stu_id, activity_id}), { headers: { token: token } });
+    return axios.post("/stu/join", Qs.stringify({ stu_id, activity_id }), { headers: { token: token } });
 };
 
-export const getPageMain = pageNum => {
-    return axios({
-        url: "/getpagearticle",
-        params: {
-            page: pageNum
-        }
-    })
+// 管理员端接口
+export const getBooks = (page, size) => {
+    return axios.get("/common/books?page=" + page + "&size=" + size);
+};
+export const getMusics = (page, size) => {
+    return axios.get("/common/musics?page=" + page + "&size=" + size);
+};
+export const getMovies = (page, size) => {
+    return axios.get("/common/movies?page=" + page + "&size=" + size);
 };

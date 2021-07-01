@@ -1,7 +1,7 @@
 <template>
   <div>
-    <div>
-      <button @click="go()">123</button>
+        <div style="margin: 1rem" class="level-center">
+      <h1 class="title">活动</h1>
     </div>
     <div style="margin: 1rem" class="level-center">
       <div class="level-item">
@@ -137,11 +137,6 @@ export default {
         query: {
           id: activityid,
         },
-      });
-    },
-    go() {
-      this.$router.push({
-        path: "/detail"
       });
     },
     searching() {
