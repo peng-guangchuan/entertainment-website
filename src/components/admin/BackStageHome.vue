@@ -49,6 +49,7 @@ export default {
     Sidebar,
     Footer,
   },
+  mounted() {},
 };
 </script>
 

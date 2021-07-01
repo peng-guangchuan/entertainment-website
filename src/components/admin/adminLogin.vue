@@ -141,9 +141,13 @@ export default {
   methods: {
     loginadmin() {
       userLogin(this.email, this.password).then((res) => {
+        const { data } = res;
+        this.admin = data;
         if (res.data.data.type == 0) {
           console.log("adminlogin", res);
-          this.$store.dispatch("adminLogin");
+          this.$store.dispatch("adminLogin", {
+            admin: data,
+          });
           this.$message({
             message: "尊敬的管理员，欢迎您！",
             type: "success",

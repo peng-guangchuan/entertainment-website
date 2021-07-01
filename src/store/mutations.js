@@ -8,8 +8,10 @@ export default {
         window.localStorage.setItem('user', JSON.stringify(user));
         window.localStorage.setItem('isLogin', true)
     },
-    adminlogin(state) {
+    adminlogin(state, admin) {
         state.adminIsLogin = true;
+        state.admin = admin;
+        window.localStorage.setItem('admin', JSON.stringify(admin));
         window.localStorage.setItem('adminIsLogin', true)
     },
     logout(state) {

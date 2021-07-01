@@ -30,6 +30,11 @@ export default new Vuex.Store({
       type: window.localStorage.getItem('user' || '[]') == null ? '' : JSON.parse(window.localStorage.getItem('user' || '[]')).type,
       token: window.localStorage.getItem('user' || '[]') == null ? '' : JSON.parse(window.localStorage.getItem('user' || '[]')).token,
     },
+    admin: {
+      account: window.localStorage.getItem('admin' || '[]') == null ? '' : JSON.parse(window.localStorage.getItem('admin' || '[]')).account,
+      email: window.localStorage.getItem('admin' || '[]') == null ? '' : JSON.parse(window.localStorage.getItem('admin' || '[]')).email,
+      token: window.localStorage.getItem('admin' || '[]') == null ? '' : JSON.parse(window.localStorage.getItem('admin' || '[]')).token,
+    },
     totalElements: 16,
     registeruser: {
       userName: "",
