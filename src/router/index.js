@@ -16,7 +16,8 @@ const routes = [
   { path: "/musichome", name: "musichome", component: () => import("../components/music/musichome.vue") },
   { path: "/musicdetail", name: "musicdetail", component: () => import("../components/music/musicdetail.vue") },
   { path: "/activityhome", name: "activityhome", component: () => import("../components/activityhome/ActivityHome.vue") },
-  { path: "/loginbackstage", name: "loginbackstage", component: () => import("../components/backstagehome/LoginBackStage.vue") },
+  { path: "/activitydetail", name: "activitydetail", component: () => import("../components/activityhome/ActivityDetail.vue") },
+  { path: "/adminLogin", name: "adminLogin", component: () => import("../components/admin/adminLogin.vue") },
   {
     path: "/backstagehome", component: () => import("../components/backstagehome/BackStageHome.vue"),
     children: [{ path: "/usermanger", name: "usermanger", component: () => import("../components/backstagehome/UserManger.vue") },

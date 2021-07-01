@@ -209,7 +209,6 @@
 
 
 <script>
-import { newpost } from "@/api";
 export default {
   data() {
     return {
@@ -222,13 +221,6 @@ export default {
   methods: {
     post() {
       this.userId = this.$store.state.user.userId;
-      newpost(this.userId, this.title, this.text, this.select)
-        .then(res => {
-          if (res.data === 200) {
-            this.$router.push("/");
-          }
-        })
-        .catch();
     }
   }
 };
@@ -336,15 +328,6 @@ body {
   max-width: 1100px;
   margin: 0 auto;
 }
-table[Attributes Style] {
-  -webkit-border-horizontal-spacing: 0px;
-  -webkit-border-vertical-spacing: 0px;
-  border-top-width: 0px;
-  border-right-width: 0px;
-  border-bottom-width: 0px;
-  border-left-width: 0px;
-  width: 100%;
-}
 user agent stylesheet table {
   display: table;
   border-collapse: separate;
@@ -360,10 +343,6 @@ tr {
   display: table-row;
   vertical-align: inherit;
   border-color: inherit;
-}
-td[Attributes Style] {
-  width: 110px;
-  text-align: -webkit-left;
 }
 user agent stylesheet td {
   display: table-cell;

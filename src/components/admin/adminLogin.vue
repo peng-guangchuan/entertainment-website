@@ -6,9 +6,8 @@
           <table cellpadding="0" cellspacing="0" border="0" width="100%">
             <tbody>
               <tr>
-                <td width="570" align="right" style="padding-top: 2px">
-                  <a href="/" class="top">首页</a>&nbsp;&nbsp;&nbsp;
-                  <a href="/signup" class="top">注册</a>
+                <td width="570" align="left" style="padding-top: 2px">
+                  <a href="/adminlogin" class="top">首页</a>
                   &nbsp;&nbsp;&nbsp;
                 </td>
               </tr>
@@ -25,12 +24,12 @@
           <div class="sep20"></div>
           <div class="box">
             <div class="header">
-              <a href="/">重工论坛</a>
-              <span class="chevron">&nbsp;›&nbsp;</span> 登录 &nbsp;
+              <a href="#">宠物论坛</a>
+              <span class="chevron">&nbsp;›&nbsp;</span> 管理员登录 &nbsp;
               <li class="fa fa-lock"></li>
             </div>
             <div class="cell">
-              <form method="post" action="/signin">
+              <form method="post" action="">
                 <table cellpadding="5" cellspacing="0" border="0" width="100%">
                   <tbody>
                     <tr>
@@ -47,6 +46,7 @@
                           autocapitalize="off"
                           placeholder="电子邮箱地址"
                           v-model="email"
+                          @keyup.enter="loginadmin"
                         />
                       </td>
                     </tr>
@@ -62,6 +62,7 @@
                           spellcheck="false"
                           autocapitalize="off"
                           v-model="password"
+                          @keyup.enter="loginadmin"
                         />
                       </td>
                     </tr>
@@ -74,14 +75,15 @@
                           type="button"
                           class="super normal button"
                           value="登录"
-                          @click="login"
+                          @click="loginadmin"
+                          @keyup.enter="loginadmin"
                         />
                       </td>
                     </tr>
                     <tr>
                       <td width="120" align="right"></td>
                       <td width="auto" align="left">
-                        <a href="/forgot">我忘记密码了</a>
+                        <span>问题致电：12345678910</span>
                       </td>
                     </tr>
                   </tbody>
@@ -108,19 +110,19 @@
             </a>
           </div>
           <strong>
-            <a href="/about" class="dark" target="_self">关于</a> &nbsp;
+            <a href="#" class="dark" target="_self">关于</a> &nbsp;
             <span class="snow">·</span> &nbsp;
-            <a href="/faq" class="dark" target="_self">FAQ</a> &nbsp;
+            <a href="#" class="dark" target="_self">FAQ</a> &nbsp;
             <span class="snow">·</span> &nbsp;
-            <a href="/p/7v9TEc53" class="dark" target="_self">API</a> &nbsp;
+            <a href="#" class="dark" target="_self">API</a> &nbsp;
             <span class="snow">·</span> &nbsp;
-            <a href="/mission" class="dark" target="_self">我们的愿景</a> &nbsp;
+            <a href="#" class="dark" target="_self">我们的愿景</a> &nbsp;
             <span class="snow">·</span> &nbsp;
-            <a href="/advertise" class="dark" target="_self">广告投放</a> &nbsp;
+            <a href="#" class="dark" target="_self">广告投放</a> &nbsp;
             <span class="snow">·</span> &nbsp;
-            <a href="/advertise/2017.html" class="dark" target="_self">感谢</a>
+            <a href="#" class="dark" target="_self">感谢</a>
             &nbsp; <span class="snow">·</span> &nbsp;
-            <a href="/tools" class="dark" target="_self">实用小工具</a>
+            <a href="#" class="dark" target="_self">实用小工具</a>
             &nbsp;
           </strong>
           &nbsp;
@@ -144,7 +146,7 @@
 </template>
 
 <script>
-import { userLogin } from "@/api";
+import { adminlogin } from "@/api";
 export default {
   data() {
     return {
@@ -153,31 +155,35 @@ export default {
     };
   },
   methods: {
-    login() {
-      userLogin(this.email, this.password)
+    loginadmin() {
+      adminlogin(this.email, this.password)
         .then((res) => {
-          const { data } = res;
-          this.user = data;
-          console.log(data);
-          if (data != null) {
-            this.$store.dispatch("aLogin", {
-              user: data,
-              message: "",
-              success: () => {
-                console.log("欢迎您");
-              },
+          if (res.data != "") {
+            this.setCookie("adminId", res.data.adminId, 1);
+            this.setCookie("adminLoginName", res.data.adminLoginName);
+            this.$message({
+              message: "尊敬的" + res.data.adminLoginName + "管理员，欢迎您",
+              type: "success",
             });
+            this.$router.push("/adminhome");
           } else {
-            alert("该用户不存在");
+            this.$message.error("登陆失败：账号或密码错误");
           }
-          this.$router.go(-1);
         })
         .catch(() => {});
+    },
+    //设置cookie
+    setCookie: function (cname, cvalue, exdays) {
+      var d = new Date();
+      d.setTime(d.getTime() + exdays * 24 * 60 * 60 * 1000);
+      var expires = "expires=" + d.toUTCString();
+      console.info(cname + "=" + cvalue + "; " + expires);
+      document.cookie = cname + "=" + cvalue + "; " + expires;
+      console.info(document.cookie);
     },
   },
 };
 </script>
-
 
 <style scoped>
 .table {

@@ -101,6 +101,11 @@ export const getComment = (type, id, page, size, token) => {
     return axios.get("/common/comments?type=" + type + "&id=" + id + "&page=" + page + "&size=" + size, { headers: { token: token } }
     );
 };
+// 获取长评论接口
+export const getLongComment = (type, id, ctype, page, size, token) => {
+    return axios.get("/common/comments?type=" + type + "&id=" + id + "&ctype=" + ctype + "&page=" + page + "&size=" + size, { headers: { token: token } }
+    );
+};
 
 // 获取评分接口
 export const getGrade = (entityType, id) => {
@@ -160,21 +165,22 @@ export const getTopMovie = () => {
     return axios.get("/common/top/movie");
 }
 
+// 获取活动信息接口
+export const getAllActivity = (content, status, sequence, page, size) => {
+    return axios.get("/common/activitys?content=" + content + "&status=" + status + "&sequence=" + sequence + "&page=" + page + "&size=" + size);
+}
+// 获取单个活动信息接口
+export const getOneActivity = (id) => {
+    return axios.get("/common/activity/" + id);
+}
+// 获取单个活动的图片接口
+export const getOneActivityImg = (id) => {
+    return axios.get("/common/activity/img?id=" + id);
+}
 
-export const getAllArticle = (page) => {
-    return axios.post("/pagearticle", Qs.stringify({ page }));
-};
-
-export const getAllArticleType = () => {
-    return axios.post("/getallarticletype");
-};
-
-export const getArticleByTypeId = typeId => {
-    return axios.post("/getarticlebytypeid", Qs.stringify({ typeId }));
-};
-
-export const getHotArticleType = () => {
-    return axios.post("/gethotarticletype");
+// 报名活动接口
+export const joinActivity = (token, stu_id, activity_id) => {
+    return axios.post("/stu/join", Qs.stringify({ stu_id, activity_id}), { headers: { token: token } });
 };
 
 export const getPageMain = pageNum => {
@@ -185,30 +191,3 @@ export const getPageMain = pageNum => {
         }
     })
 };
-export const getnew = () => {
-    return axios("/getnew")
-};
-
-export const gethotuser = () => {
-    return axios("/hotuser")
-};
-
-export const getcomment = (artId) => {
-    return axios.post("/getComment", Qs.stringify({ artId }))
-};
-export const newcomment = (comArtId, text, comUserId) => {
-    return axios.post("/postcomment", Qs.stringify({ comArtId, text, comUserId }))
-};
-export const newpost = (userId, title, text, select) => {
-    return axios.post("/newpost", Qs.stringify({ userId, title, text, select }))
-}
-
-export const findartbyuserid = (userId) => {
-    return axios.post("/findartbyuserid", Qs.stringify({ userId }))
-}
-
-export const getuserlist = () => {
-    return axios.post("/getuserlist")
-}
-
-

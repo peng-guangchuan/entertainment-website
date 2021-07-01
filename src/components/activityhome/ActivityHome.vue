@@ -1,7 +1,11 @@
 <template>
   <div id="activityhome">
     <Top />
-    <AllActivity />
+    <el-row>
+      <el-col :span="14" :push="5" :pull="5">
+        <AllActivity />
+      </el-col>
+    </el-row>
     <Footer />
   </div>
 </template>
