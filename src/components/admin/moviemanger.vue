@@ -109,7 +109,7 @@
           <div style="float: left">
             <el-upload
               class="upload-demo"
-              :action="this.$store.state.imgBaseUrl + '/admin/img'"
+              :action="this.$store.state.imgBaseUrl + '/stu/img'"
               :headers="{ token: this.token }"
               :on-success="handleUploadSuccess"
               list-type="picture"

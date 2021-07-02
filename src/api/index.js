@@ -247,6 +247,19 @@ export const addMusic = (form,token)=>{
     return axios.post("/admin/music",Qs.stringify(form),{headers: {token:token }});
 }
 
+//添加活动图片
+export const addActivityImage = (token,file,id) =>{
+    return axios.post("/admin/activity/img",{file,id},{headers:{token:token}});
+}
+//添加活动
+export const addActivity = (token,form) =>{
+    return axios.post("/admin/activity",form,{headers:{token:token}});
+}
+// 删除活动信息
+export const deleteActivity = (id, token) => {
+    return axios.delete("/admin/activity", { params: { "id": id }, headers: { token: token } });
+}
+
 // //上传图片接口
 // export const uploadImage = (image)=>{
 //     return axios.post("/admin/img",image);
