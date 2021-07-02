@@ -10,8 +10,8 @@
         <span>内容管理</span>
       </template>
       <el-menu-item index="1-1">书籍管理</el-menu-item>
-      <el-menu-item index="1-2">音乐管理</el-menu-item>
       <el-menu-item index="1-3">电影管理</el-menu-item>
+      <el-menu-item index="1-2">音乐管理</el-menu-item>
     </el-submenu>
     <el-menu-item index="2">
       <i class="el-icon-document"></i>
