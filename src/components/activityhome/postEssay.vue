@@ -1,27 +1,6 @@
 <template>
   <div>
-    <div id="Top">
-      <div class="content">
-        <div style="padding-top: 6px">
-          <table cellpadding="0" cellspacing="0" border="0" width="100%">
-            <tbody>
-              <tr>
-                <td width="110" align="left">
-                  <a href="/" name="top" title="way to explore">
-                    <div id="Logo"></div>
-                  </a>
-                </td>
-                <td width="auto" align="left"></td>
-                <td width="570" align="right" style="padding-top: 2px">
-                  <a href="/" class="top">首页</a>
-                  &nbsp;&nbsp;&nbsp;
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
+    <Top />
     <div id="Wrapper">
       <div class="content">
         <div id="Leftbar"></div>
@@ -80,7 +59,7 @@
           <div class="sep20"></div>
           <div class="box" id="box">
             <div class="cell">
-              <a href="/">@{{ $store.state.user.userName }}</a>
+              <a href="#">@{{ $store.state.user.name }}</a>
               <span class="chevron">&nbsp;›&nbsp;</span> 发表新帖
             </div>
             <form method="post" action="/new" id="compose">
@@ -179,36 +158,7 @@
       <div class="c"></div>
       <div class="sep20"></div>
     </div>
-    <div id="Bottom">
-      <div class="content">
-        <div class="inner">
-          <div class="sep10"></div>
-          <strong>
-            <a href="#" class="dark" target="_self">关于</a> &nbsp;
-            <span class="snow">·</span> &nbsp;
-            <a href="#" class="dark" target="_self">我们</a> &nbsp;
-            <span class="snow">·</span> &nbsp;
-            <a href="#" class="dark" target="_self">AND</a> &nbsp;
-            <span class="snow">·</span> &nbsp;
-            <a href="#" class="dark" target="_self">我们的愿景</a>
-            &nbsp;
-            <span class="snow">·</span> &nbsp;
-            <a href="#" class="dark" target="_self">感谢</a>
-            &nbsp;
-          </strong>
-          &nbsp;
-          <!-- <div class="sep20"></div> -->
-          <!-- 创意工作者们的社区 -->
-          <div class="sep5"></div>
-          <!-- World is powered by solitude -->
-          <!-- <div class="sep20"></div> -->
-          <span class="small fade">
-            <br />♥ Do have faith in what you're doing.
-          </span>
-          <div class="sep5"></div>
-        </div>
-      </div>
-    </div>
+    <Footer />
   </div>
 </template>
 
@@ -219,6 +169,9 @@ import { quillEditor } from "vue-quill-editor";
 import "quill/dist/quill.core.css";
 import "quill/dist/quill.snow.css";
 import "quill/dist/quill.bubble.css";
+import { postNewEssay } from "@/api";
+import Top from "../webHome/Top";
+import Footer from "../webHome/Footer";
 
 // 工具栏配置
 const toolbarOptions = [
@@ -239,9 +192,10 @@ const toolbarOptions = [
 ];
 
 export default {
-  name: "wxmaterial",
   components: {
     quillEditor,
+    Top,
+    Footer,
   },
   data() {
     return {
@@ -251,6 +205,7 @@ export default {
       text: "",
       userId: 0,
       artId: 0,
+      activityid: 0,
       uploadData: {}, // 图片文件
       // serverUrl: "/dev-api/wxmaterial/newsImgUpload", // 这里写你要上传的图片服务器地址
       header: {
@@ -293,6 +248,29 @@ export default {
     };
   },
   methods: {
+    post() {
+      postNewEssay(
+        this.$store.state.user.token,
+        4,
+        this.activityid,
+        this.$store.state.user.id,
+        1,
+        this.content,
+        this.title
+      )
+        .then((res) => {
+          console.log(res);
+          if (res.data.code == 20000) {
+            this.$notify({
+              message: "随笔发布成功",
+              type: "success",
+              position: "bottom-right",
+            });
+            this.$router.push("/");
+          }
+        })
+        .catch();
+    },
     onEditorBlur() {
       // param: editor
       //失去焦点事件
@@ -318,7 +296,6 @@ export default {
         // 获取光标所在位置
         let length = quill.getSelection().index;
         // 插入图片  res.info为服务器返回的图片地址
-
         quill.insertEmbed(length, "image", res.config.baseURL + res.data);
         // 调整光标到最后
         quill.setSelection(length + 1);
@@ -336,19 +313,18 @@ export default {
       this.$message.error("图片插入失败");
     },
     imgBroadcastChange(file) {
-      this.userId = this.$store.state.user.userId;
       this.fileimg = file.raw; //保存全局对象，用以上传方法使用
       const isLt2M = file.size / 1024 / 1024 < 2;
       if (isLt2M) {
         let formData = new FormData();
-        formData.append("image", this.fileimg);
-        formData.append("userId", this.userId);
+        formData.append("file", this.fileimg);
         this.$axios({
           method: "post",
-          url: "/image",
+          url: "/stu/img",
           data: formData,
           headers: {
             "Content-Type": "multipart/form-data",
+            token: this.$store.state.user.token,
           },
         }).then((res) => {
           this.uploadSuccess(res);
@@ -358,9 +334,8 @@ export default {
       }
     },
   },
-    mounted() {
-    let activityid = this.$route.query.id;
-    console.log(activityid);
+  mounted() {
+    this.activityid = this.$route.query.id;
   },
 };
 </script>
@@ -447,7 +422,6 @@ export default {
 .fade {
   color: #ccc;
 }
-
 .msl {
   width: 100%;
   border: none;
@@ -461,7 +435,6 @@ export default {
   margin: 0;
   box-sizing: border-box;
 }
-
 textarea {
   /* -webkit-writing-mode: horizontal-tb !important; */
   text-rendering: auto;
@@ -489,14 +462,12 @@ textarea {
   border-image: initial;
   padding: 2px;
 }
-
 style Attribute {
   text-align: left;
   border-bottom: 1px solid #e2e2e2;
   font-size: 14px;
   line-height: 120%;
 }
-
 #Bottom {
   border-top: 1px solid rgba(0, 0, 0, 0.22);
   background-color: var(--box-background-color);

@@ -1,6 +1,6 @@
 <template>
   <div>
-        <div style="margin: 1rem" class="level-center">
+    <div style="margin: 1rem" class="level-center">
       <h1 class="title">活动</h1>
     </div>
     <div style="margin: 1rem" class="level-center">
@@ -178,14 +178,6 @@ export default {
         this.getAllActivityApi("", 1, 0, this.currentp, this.psize);
       }
     },
-    comtips() {
-      console.log("comtips");
-    },
-    // getLongCommentApi(type, id, ctype, page, size, token){
-    //   getLongComment(type, id, ctype, page, size, token).then((res) => {
-    //     console.log("getlongcomment",res);
-    //   });
-    // },
     getAllActivityApi(content, status, sequence, page, size) {
       getAllActivity(content, status, sequence, page, size).then((res) => {
         this.activitysInfo = res.data.data.records;

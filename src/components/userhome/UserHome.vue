@@ -149,7 +149,7 @@
 
 
 <script>
-import { findartbyuserid } from "@/api";
+// import { findartbyuserid } from "@/api";
 
 export default {
   data() {
@@ -173,11 +173,11 @@ export default {
     };
   },
   created() {
-    findartbyuserid(this.$store.state.user.userId).then(res => {
-      const { data } = res;
-      this.mypost = data;
-      this.mypostnum = data.length;
-    });
+    // findartbyuserid(this.$store.state.user.userId).then(res => {
+    //   const { data } = res;
+    //   this.mypost = data;
+    //   this.mypostnum = data.length;
+    // });
   }
 };
 </script>

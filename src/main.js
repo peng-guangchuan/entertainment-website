@@ -24,6 +24,7 @@ moment.locale('zh-cn')//国际化，中文
 Vue.use(Buefy);
 Vue.use(ElementUI);
 Vue.config.productionTip = false;
+Vue.prototype.$axios = axios;
 Vue.use(VueAxios, axios);
 Vue.use(VueQuillEditor, /* { default global options } */)
 

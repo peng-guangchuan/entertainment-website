@@ -96,6 +96,7 @@
           <a class="navbar-link">更多</a>
           <div class="navbar-dropdown">
             <a class="navbar-item">个人主页</a>
+            <a class="navbar-item" @click="goMyActivity()">我的活动</a>
             <hr class="navbar-divider" />
             <a class="navbar-item">Report an issue</a>
           </div>
@@ -146,6 +147,9 @@ export default {
     },
     goActivity() {
       this.$router.push("/activityhome");
+    },
+    goMyActivity() {
+      this.$router.push("/myactivityhome");
     },
     logout() {
       this.$message("账号成功登出！");

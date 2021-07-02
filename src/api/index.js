@@ -187,6 +187,16 @@ export const joinActivity = (token, stu_id, activity_id) => {
     return axios.post("/stu/join", Qs.stringify({ stu_id, activity_id }), { headers: { token: token } });
 };
 
+// 获取用户已报名活动接口
+export const getUserActivity = (userId, page, size, token) => {
+    return axios.get("/stu/activitys?userId=" + userId + "&page=" + page + "&size=" + size, { headers: { token: token } });
+}
+
+// 提交随笔信息
+export const postNewEssay = (token, entityType, entityId, ownerId, type, context, title) => {
+    return axios.post("/stu/essay", Qs.stringify({ entityType, entityId, ownerId, type, context, title }), { headers: { token: token } });
+}
+
 // 管理员端接口
 export const getBooks = (page, size) => {
     return axios.get("/common/books?page=" + page + "&size=" + size);
@@ -205,13 +215,13 @@ export const deleteBook = (bookId, token) => {
 }
 
 //修改书籍信息
-export const updateBook = (token,id,name,publisher,publisherYear,author,isbn,description) => {
-    
-    return axios.patch("/admin/book", Qs.stringify({ id,name,publisher,publisherYear,author,isbn,description }),{headers: {token: token}});
+export const updateBook = (token, id, name, publisher, publisherYear, author, isbn, description) => {
+
+    return axios.patch("/admin/book", Qs.stringify({ id, name, publisher, publisherYear, author, isbn, description }), { headers: { token: token } });
 }
 //添加书籍信息
-export const addBook = (form,token)=>{
-    return axios.post("/admin/book",Qs.stringify(form),{headers: {token:token }});
+export const addBook = (form, token) => {
+    return axios.post("/admin/book", Qs.stringify(form), { headers: { token: token } });
 }
 
 
@@ -222,13 +232,13 @@ export const deleteMovie = (movieId, token) => {
 }
 
 //修改电影信息
-export const updateMovie = (token,id,name,showtime,director,genre,description,actor) => {
-    
-    return axios.patch("/admin/movie", Qs.stringify({ id,name,showtime,director,genre,description,actor }),{headers: {token: token}});
+export const updateMovie = (token, id, name, showtime, director, genre, description, actor) => {
+
+    return axios.patch("/admin/movie", Qs.stringify({ id, name, showtime, director, genre, description, actor }), { headers: { token: token } });
 }
 //添加电影信息
-export const addMovie = (form,token)=>{
-    return axios.post("/admin/movie",Qs.stringify(form),{headers: {token:token }});
+export const addMovie = (form, token) => {
+    return axios.post("/admin/movie", Qs.stringify(form), { headers: { token: token } });
 }
 
 
@@ -238,13 +248,13 @@ export const deleteMusic = (id, token) => {
 }
 
 //修改音乐信息
-export const updateMusic = (token,id,name,singer,album,lyric) => {
-    
-    return axios.patch("/admin/music", Qs.stringify({ id,name,singer,album,lyric }),{headers: {token: token}});
+export const updateMusic = (token, id, name, singer, album, lyric) => {
+
+    return axios.patch("/admin/music", Qs.stringify({ id, name, singer, album, lyric }), { headers: { token: token } });
 }
 //添加音乐信息
-export const addMusic = (form,token)=>{
-    return axios.post("/admin/music",Qs.stringify(form),{headers: {token:token }});
+export const addMusic = (form, token) => {
+    return axios.post("/admin/music", Qs.stringify(form), { headers: { token: token } });
 }
 
 // //上传图片接口

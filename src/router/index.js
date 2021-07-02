@@ -16,8 +16,10 @@ const routes = [
   { path: "/musichome", name: "musichome", component: () => import("../components/music/musichome.vue") },
   { path: "/musicdetail", name: "musicdetail", component: () => import("../components/music/musicdetail.vue") },
   { path: "/activityhome", name: "activityhome", component: () => import("../components/activityhome/ActivityHome.vue") },
+  { path: "/myactivityhome", name: "myactivityhome", component: () => import("../components/activityhome/MyActivityHome.vue") },
   { path: "/activitydetail", name: "activitydetail", component: () => import("../components/activityhome/ActivityDetail.vue") },
   { path: "/adminLogin", name: "adminLogin", component: () => import("../components/admin/adminLogin.vue") },
+  { path: "/postactivity", name: "postactivity", component: () => import("../components/activityhome/postEssay.vue") },
   {
     path: "/adminHome", name: "adminHome", component: () => import("../components/admin/BackStageHome.vue"),
     children: [
