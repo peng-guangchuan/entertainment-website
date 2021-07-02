@@ -1,5 +1,5 @@
 <template>
-  <el-container v-if="this.$store.state.adminIsLogin">
+  <el-container>
     <el-header style="padding: 0px">
       <Header />
     </el-header>
@@ -17,10 +17,10 @@
       </el-container>
     </el-container>
   </el-container>
-  <div v-else style="margin-top: 5rem">
+  <!-- <div v-else style="margin-top: 5rem">
     <div>请先进行登陆</div>
     <el-button type="primary" @click="goAdminLogin()">登陆</el-button>
-  </div>
+  </div> -->
 </template>
 
 <script>

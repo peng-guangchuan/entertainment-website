@@ -33,12 +33,12 @@
       <el-table-column label="图片" width="120px">
         <template slot-scope="props">
           <el-image
-            v-if="editdes != props.row.id"
+            
             style="width: 80px; height: 100px"
             :src="props.row.img"
             :preview-src-list="[props.row.img]"
           ></el-image>
-          <el-input v-else v-model="props.row.img"></el-input>
+          <!-- <el-input v-else v-model="props.row.img"></el-input> -->
         </template>
       </el-table-column>
       <el-table-column prop="description" label="简介">
@@ -83,12 +83,10 @@
           <el-button
             v-else
             type="success"
-            @click="modifydata(scope.$index, tableData)"
+            @click="updateBookApi(scope.$index, tableData)"
             >保存</el-button
           >
-          <el-button
-            type="danger"
-            @click.native.prevent="deleteRow(scope.$index, tableData)"
+          <el-button type="danger" @click="removeBook(scope.$index, tableData)"
             >删除</el-button
           >
           <el-tooltip effect="dark" content="添加书籍" placement="top">
@@ -96,7 +94,7 @@
               type="success"
               icon="el-icon-plus"
               circle
-              @click="addData()"
+              @click="showAddDialog()"
             ></el-button
           ></el-tooltip>
         </template>
@@ -107,24 +105,23 @@
         <el-form-item label="书名：" :label-width="formLabelWidth">
           <el-input v-model="form.name" autocomplete="off"></el-input>
         </el-form-item>
-        <el-form-item label="ISBM：" :label-width="formLabelWidth">
-          <el-input v-model="form.region" autocomplete="off"></el-input>
+        <el-form-item label="ISBN：" :label-width="formLabelWidth">
+          <el-input v-model="form.isbn" autocomplete="off"></el-input>
         </el-form-item>
         <el-form-item label="作者：" :label-width="formLabelWidth">
-          <el-input v-model="form.date1" autocomplete="off"></el-input>
+          <el-input v-model="form.author" autocomplete="off"></el-input>
         </el-form-item>
         <el-form-item label="图片：" :label-width="formLabelWidth">
           <div style="float: left">
             <el-upload
               class="upload-demo"
-              action="https://jsonplaceholder.typicode.com/posts/"
-              :on-preview="handlePreview"
-              :on-remove="handleRemove"
-              :before-remove="beforeRemove"
+              :action="this.$store.state.imgBaseUrl + '/admin/img'"
+              :headers="{ token: this.token }"
+              :on-success="handleUploadSuccess"
+              list-type="picture"
               multiple
-              :limit="3"
-              :on-exceed="handleExceed"
-              :file-list="fileList"
+              :limit="1"
+
             >
               <el-button size="small" type="primary">点击上传</el-button>
               <div slot="tip" class="el-upload__tip">
@@ -134,22 +131,22 @@
           </div>
         </el-form-item>
         <el-form-item label="出版社" :label-width="formLabelWidth">
-          <el-input v-model="form.date2" autocomplete="off"></el-input>
+          <el-input v-model="form.publisher" autocomplete="off"></el-input>
         </el-form-item>
         <el-form-item label="出版年" :label-width="formLabelWidth">
-          <el-input v-model="form.resource" autocomplete="off"></el-input>
+          <el-input v-model="form.publisherYear" autocomplete="off"></el-input>
         </el-form-item>
         <el-form-item label="书籍简介：" :label-width="formLabelWidth">
           <el-input
             type="textarea"
-            v-model="form.desc"
+            v-model="form.description"
             autocomplete="off"
           ></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogFormVisible = false">取 消</el-button>
-        <el-button type="primary" @click="dialogFormVisible = false"
+        <el-button type="primary" @click="addData()"
           >确 定</el-button
         >
       </div>
@@ -159,21 +156,24 @@
 
 <script>
 import { getBooks } from "@/api";
-
+import { deleteBook } from "@/api";
+import { addBook } from "@/api";
+import { updateBook } from "@/api";
 export default {
   data() {
     return {
+      token: "",
       dialogFormVisible: false,
       form: {
         name: "",
-        region: "",
-        date1: "",
-        date2: "",
-        delivery: false,
-        type: [],
-        resource: "",
-        desc: "",
+        publisher: "",
+        publisherYear: "",
+        author: "",
+        isbn: "",
+        description: "",
+        img: "",
       },
+      filelist: [],
       formLabelWidth: "120px",
       editdes: null,
       tableData: [
@@ -194,16 +194,45 @@ export default {
     };
   },
   methods: {
-    modifydata(index, rows) {
-      this.editdes = rows[index].id;
-    },
+    
     deleteRow(index, rows) {
       rows.splice(index, 1);
     },
-    addData() {
-      console.log("adddata");
+
+    modifydata(index, rows) {
+      this.editdes = rows[index].id;
+    },
+
+    showAddDialog() {
       this.dialogFormVisible = true;
     },
+
+    updateBookApi(index,rows){
+      this.editdes = -1;
+      let data = rows[index];
+      console.log(data);
+      updateBook(this.token,data.id,data.name,data.publisher,data.publisherYear,data.author,data.isbn,data.description).then((res)=>{
+        console.log(res);
+        if(res.data.code == 20000){
+          this.$notify({
+            title: "更新成功！",
+            message: "",
+            type: "success",
+            position: "bottom-right",
+          });
+        }
+        else{
+          this.$notify.info({
+            title: "更新失败。",
+            message: "",
+            position: "bottom-right",
+          });
+        }
+      });
+      setTimeout(() => {this.getBooksApi()}, 2000);
+
+    },
+
     getBooksApi() {
       getBooks(1, 100).then((res) => {
         this.tableData = res.data.data.records;
@@ -213,9 +242,62 @@ export default {
         }
       });
     },
+
+    handleUploadSuccess(res) {
+      console.log(res);
+      this.form.img = res.data;
+    },
+
+    addData() {
+      addBook(this.form).then((res)=>{
+        console.log(res);
+        if(res.data.code == 20000){
+          this.$notify({
+            title: "添加成功！",
+            message: "",
+            type: "success",
+            position: "bottom-right",
+          });
+          this.dialogFormVisible = false
+          this.getBooksApi();
+        }
+        else{
+          this.$notify.info({
+            title: "添加失败。",
+            message: "",
+            position: "bottom-right",
+          });
+        }
+      });
+      
+    },
+
+
+    removeBook(index, rows) {
+      var bookid = rows[index].id;
+      deleteBook(bookid).then((res) => {
+        console.log(res);
+        if (res.data.code == 20000) {
+          this.$notify({
+            title: "删除成功！",
+            message: "",
+            type: "success",
+            position: "bottom-right",
+          });
+          this.getBooksApi();
+        } else {
+          this.$notify.info({
+            title: "删除失败。",
+            message: "",
+            position: "bottom-right",
+          });
+        }
+      });
+    },
   },
   mounted() {
     this.getBooksApi();
+    this.token = this.$store.state.admin.token;
   },
 };
 </script>

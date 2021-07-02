@@ -197,3 +197,62 @@ export const getMusics = (page, size) => {
 export const getMovies = (page, size) => {
     return axios.get("/common/movies?page=" + page + "&size=" + size);
 };
+
+
+// 删除书籍信息
+export const deleteBook = (bookId, token) => {
+    return axios.delete("/admin/book", { params: { "id": bookId }, headers: { token: token } });
+}
+
+//修改书籍信息
+export const updateBook = (token,id,name,publisher,publisherYear,author,isbn,description) => {
+    
+    return axios.patch("/admin/book", Qs.stringify({ id,name,publisher,publisherYear,author,isbn,description }),{headers: {token: token}});
+}
+//添加书籍信息
+export const addBook = (form,token)=>{
+    return axios.post("/admin/book",Qs.stringify(form),{headers: {token:token }});
+}
+
+
+
+// 删除电影信息
+export const deleteMovie = (movieId, token) => {
+    return axios.delete("/admin/movie", { params: { "id": movieId }, headers: { token: token } });
+}
+
+//修改电影信息
+export const updateMovie = (token,id,name,showtime,director,genre,description,actor) => {
+    
+    return axios.patch("/admin/movie", Qs.stringify({ id,name,showtime,director,genre,description,actor }),{headers: {token: token}});
+}
+//添加电影信息
+export const addMovie = (form,token)=>{
+    return axios.post("/admin/movie",Qs.stringify(form),{headers: {token:token }});
+}
+
+
+// 删除音乐信息
+export const deleteMusic = (id, token) => {
+    return axios.delete("/admin/music", { params: { "id": id }, headers: { token: token } });
+}
+
+//修改音乐信息
+export const updateMusic = (token,id,name,singer,album,lyric) => {
+    
+    return axios.patch("/admin/music", Qs.stringify({ id,name,singer,album,lyric }),{headers: {token: token}});
+}
+//添加音乐信息
+export const addMusic = (form,token)=>{
+    return axios.post("/admin/music",Qs.stringify(form),{headers: {token:token }});
+}
+
+// //上传图片接口
+// export const uploadImage = (image)=>{
+//     return axios.post("/admin/img",image);
+// }
+// // 报名活动接口
+// export const joinActivity = (token, stu_id, activity_id) => {
+//     return axios.post("/stu/join", Qs.stringify({ stu_id, activity_id }), { headers: { token: token } });
+// };
+
